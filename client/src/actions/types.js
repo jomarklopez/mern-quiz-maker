@@ -1,0 +1,12 @@
+export const ADD_QUESTION = 'ADD_QUESTION';
+export const REMOVE_QUESTION = 'REMOVE_QUESTION';
+export const CLEAR_QUESTION = 'CLEAR_QUESTION';
+export const CREATE_USER = 'CREATE_USER';
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_OUT = 'SIGN_OUT';
+export const CREATE_QUIZ = 'CREATE_QUIZ';
+export const FETCH_QUIZZES = 'FETCH_QUIZZES';
+export const FETCH_QUIZ = 'FETCH_QUIZ';
+export const FETCH_SHUFFLED_QUIZ = 'FETCH_SHUFFLED_QUIZ';
+export const EDIT_QUIZ = 'EDIT_QUIZ';
+export const DELETE_QUIZ = 'DELETE_QUIZ';

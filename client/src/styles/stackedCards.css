@@ -1,0 +1,57 @@
+/* Stacked Cards component css */
+.stackedcards-overflow {
+    overflow-y: hidden !important;
+}
+
+.stackedcards {
+    position: relative;
+}
+
+.stackedcards-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.stackedcards--animatable {
+    -webkit-transition: all 500ms ease;
+            -o-transition: all 500ms ease;
+            transition: all 500ms ease;
+}
+
+.stackedcards .stackedcards-container > *{
+    position: absolute;
+    justify-self: center;
+    will-change: transform, opacity;
+}
+
+.stackedcards .stackedcards-container > :nth-child(1) {
+    position: relative;
+    display: block;
+}
+
+.card-item { 
+    display: flex;
+    max-width: 320px;
+    margin: 0!important;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    background: #FFFFFF; 
+    border-radius: .28571429rem;
+    will-change: transform, opacity;
+}
+
+.card-item > * {
+    padding: 1em 1em;
+}
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+
+  .card-item {
+      min-width: 500px;
+  }
+
+  .card-item .content {
+      min-width: inherit;
+  }
+}
