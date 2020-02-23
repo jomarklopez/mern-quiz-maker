@@ -14,6 +14,7 @@ const userRouter = require('./routers/user')
 const quizRouter = require('./routers/quiz')
 
 // Connect mongoose to database
+// "mongodb+srv://jmlopez:mahesvara@react-quiz-ky0fy.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/quiz-create-api', {
     useNewUrlParser: true,
     useUnifiedTopology: true
