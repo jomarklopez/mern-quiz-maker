@@ -22,6 +22,7 @@ export default (state = {}, action) => {
             return { ...state, [action.payload._id]: action.payload }
         case FETCH_QUIZZES:
             //Getting a list of many records
+            console.log(action.payload)
             return { ...state, ..._.mapKeys(action.payload, '_id') }
         case EDIT_QUIZ:
             return { ...state, [action.payload._id]: action.payload }

@@ -113,7 +113,6 @@ export const fetchQuizzes = () => async dispatch => {
             'Authorization': `Bearer ${token}`
         }
     });
-    console.log(response.data)
     dispatch({ type: FETCH_QUIZZES, payload: response.data });
 };
 
