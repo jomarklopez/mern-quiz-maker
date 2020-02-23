@@ -35,8 +35,9 @@ class QuizStart extends React.Component {
 
         for (let index = 0; index < questions.length; index++) {
             const question = questions[index];
+            console.log(question.answer + ' vs ' + userAnswers[index])
             if (question.answer === userAnswers[index]) {
-                this.userScore += 1;
+                this.userScore++;
             }
         }
     }
