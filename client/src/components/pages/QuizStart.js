@@ -61,7 +61,7 @@ class QuizStart extends React.Component {
                                     <Field
                                         id={`${question._id}-0-${question.options[0]}`}
                                         type="radio"
-                                        name={question.question}
+                                        name={question._id}
                                         component={this.renderRadioInput}
                                         value={question.options[0]}
                                     />
@@ -72,7 +72,7 @@ class QuizStart extends React.Component {
                                     <Field
                                         id={`${question._id}-1-${question.options[1]}`}
                                         type="radio"
-                                        name={question.question}
+                                        name={question._id}
                                         component={this.renderRadioInput}
                                         value={question.options[1]}
                                     />
@@ -83,7 +83,10 @@ class QuizStart extends React.Component {
                             <div className="row">
                                 <div className="eight wide column option-container">
                                     <Field
-                                        id={`${question._id}-2-${question.options[2]}`} type="radio" name={question.question} component={this.renderRadioInput} value={question.options[2]} />
+                                        id={`${question._id}-2-${question.options[2]}`} type="radio"
+                                        name={question._id}
+                                        component={this.renderRadioInput}
+                                        value={question.options[2]} />
                                     <label htmlFor={`${question._id}-2-${question.options[2]}`}>{question.options[2]}
                                     </label>
                                 </div>
@@ -91,7 +94,7 @@ class QuizStart extends React.Component {
                                     <Field
                                         id={`${question._id}-3-${question.options[3]}`}
                                         type="radio"
-                                        name={question.question}
+                                        name={question._id}
                                         component={this.renderRadioInput}
                                         value={question.options[3]}
                                     />

@@ -7,8 +7,6 @@ const required = value => (value || typeof value === 'number' ? undefined : 'Req
 class CreateAutoQuizForm extends React.Component {
 
     onSubmit = formValues => {
-        // Arrange the form values
-
         this.props.onSubmit(formValues);
     }
 

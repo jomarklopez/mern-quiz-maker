@@ -19,6 +19,7 @@ export default (state = {}, action) => {
             for (const question of action.payload.questions) {
                 shuffleArray(question.options);
             }
+            shuffleArray(action.payload.questions)
             return { ...state, [action.payload._id]: action.payload }
         case FETCH_QUIZZES:
             //Getting a list of many records

@@ -5,7 +5,7 @@ const router = new express.Router()
 
 // Create question
 router.post('/quiz', auth, async (req, res) => {
-    console.log(req.body)
+
     const quiz = new Quiz({
         ...req.body,
         user: req.user._id
