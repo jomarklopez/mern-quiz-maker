@@ -29,8 +29,6 @@ class QuizCreate extends React.Component {
             }
             this.props.createQuiz(formValues);
         } else if (this.state.showAutoQuizForm) {
-            console.log(typeof formValues)
-
             let questionsInput = removeEmptyLines(formValues.questionsForm.split(/\n/));
             let answerKey = removeEmptyLines(formValues.answersForm.split(/\n/));
             let choices = createChoices(answerKey);
@@ -53,7 +51,6 @@ class QuizCreate extends React.Component {
     }
 
     onSubmit = formValues => {
-        console.log(formValues)
         this.submitQuizBody(formValues);
     }
 
@@ -190,7 +187,6 @@ class QuizCreate extends React.Component {
     }
 
     render() {
-        console.log('RENDER')
         return (
             <>
                 {this.renderForm()}
