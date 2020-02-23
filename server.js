@@ -23,8 +23,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Set up the port to use with the env variables for Heroku or to use port 3000
-const port = process.env.PORT || 3001
-
+const PORT = process.env.PORT || 3000
 
 // cors
 app.use(cors({ origin: true, credentials: true }))
@@ -37,6 +36,6 @@ app.use(userRouter)
 app.use(quizRouter)
 
 // Set server to use port 3000
-app.listen(port, () => {
-    console.log('Server is up on port ' + port)
-})
+app.listen(PORT, () => {
+    console.log(`Our app is running on port ${PORT}`);
+});
