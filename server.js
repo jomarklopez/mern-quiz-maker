@@ -1,9 +1,14 @@
 const express = require('express')
 const cors = require('cors')
 const path = require('path')
+const mongoose = require('mongoose')
 
-// Connect mongoose to database by running the file
-require('./db/mongoose')
+// Connect mongoose to database
+const MongoClient = require("mongodb").MongoClient;
+const client = await new MongoClient(process.env.MONGODB_URI, { useNewUrlParser: true });
+client.connect();
+mongoose.connection.once('open', () => { console.log('MongoDB Connected'); });
+mongoose.connection.on('error', (err) => { console.log('MongoDB connection error: ', err); });
 
 // Routes that connect to different resource endpoints
 const userRouter = require('./routers/user')
@@ -23,7 +28,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Set up the port to use with the env variables for Heroku or to use port 3000
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
 // cors
 app.use(cors({ origin: true, credentials: true }))
@@ -35,7 +40,7 @@ app.use(express.json())
 app.use(userRouter)
 app.use(quizRouter)
 
-// Set server to use port 3000
+// Set server to use port 3001
 app.listen(PORT, () => {
     console.log(`Our app is running on port ${PORT}`);
 });
