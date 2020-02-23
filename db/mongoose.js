@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 mongoose
-    .connect('mongodb+srv://jmlopez:mahesvara@react-quiz-ky0fy.mongodb.net/test?retryWrites=true&w=majority', {
+    .connect(process.env.MONGODB_URI || 'mongodb+srv://jmlopez:mahesvara@react-quiz-ky0fy.mongodb.net/test?retryWrites=true&w=majority', {
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: false,
