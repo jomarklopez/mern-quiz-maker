@@ -4,11 +4,14 @@ const path = require('path')
 const mongoose = require('mongoose')
 
 // Connect mongoose to database
-const MongoClient = require("mongodb").MongoClient;
-const client = await new MongoClient(process.env.MONGODB_URI, { useNewUrlParser: true });
-client.connect();
-mongoose.connection.once('open', () => { console.log('MongoDB Connected'); });
-mongoose.connection.on('error', (err) => { console.log('MongoDB connection error: ', err); });
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+
+mongoose.connection.on('connected', () => {
+    console.log('Mongoose is connected!!!')
+})
 
 // Routes that connect to different resource endpoints
 const userRouter = require('./routers/user')
