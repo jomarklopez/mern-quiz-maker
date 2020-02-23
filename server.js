@@ -16,7 +16,8 @@ const quizRouter = require('./routers/quiz')
 // Connect mongoose to database
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/quiz-create-api', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 })
 
 mongoose.connection.on('connected', () => {

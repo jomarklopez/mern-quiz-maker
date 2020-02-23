@@ -13,7 +13,7 @@ import {
     CLEAR_QUESTION
 } from '../actions/types';
 import history from '../history';
-import quizzes from '../api/quizzes';
+import axios from 'axios';
 
 /**
  *
@@ -21,7 +21,7 @@ import quizzes from '../api/quizzes';
  */
 
 export const createUser = formValues => async dispatch => {
-    const response = await quizzes.post('/users', formValues);
+    const response = await axios.post('/users', formValues);
     dispatch({ type: CREATE_USER, payload: response.data });
 
     //Do some programmatic navigation to automatically bring the user back to the list of streams
@@ -29,7 +29,8 @@ export const createUser = formValues => async dispatch => {
 };
 
 export const signInUser = formValues => async dispatch => {
-    const response = await quizzes.post('/users/login', formValues);
+    const response = await axios.post('/users/login', formValues);
+
     localStorage.setItem('user', response.data.user)
     localStorage.setItem('token', response.data.token);
     dispatch({ type: SIGN_IN, payload: response.data.user });
@@ -38,7 +39,7 @@ export const signInUser = formValues => async dispatch => {
 
 export const signOutUser = () => async dispatch => {
     const token = localStorage.getItem('token');
-    await quizzes.post('/users/logout', null, {
+    await axios.post('/users/logout', null, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -53,7 +54,7 @@ export const signOutUser = () => async dispatch => {
 export const getUserProfile = () => async dispatch => {
     const token = localStorage.getItem('token');
     if (token) {
-        const response = await quizzes.get('/users/me', { headers: { 'Authorization': `Bearer ${token}` } });
+        const response = await axios.get('/users/me', { headers: { 'Authorization': `Bearer ${token}` } });
         dispatch({ type: SIGN_IN, payload: response.data });
     }
 };
@@ -91,7 +92,7 @@ export const removeQuestion = (questionId) => {
 export const createQuiz = formValues => async dispatch => {
     const token = localStorage.getItem('token');
 
-    const response = await quizzes.post(
+    const response = await axios.post(
         '/quiz',
         formValues, {
         headers: {
@@ -107,7 +108,7 @@ export const createQuiz = formValues => async dispatch => {
 export const fetchQuizzes = () => async dispatch => {
     const token = localStorage.getItem('token');
 
-    const response = await quizzes.get('/quiz', {
+    const response = await axios.get('/quiz', {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -119,7 +120,7 @@ export const fetchQuizzes = () => async dispatch => {
 export const fetchQuiz = id => async dispatch => {
     const token = localStorage.getItem('token');
 
-    const response = await quizzes.get(`/quiz/${id}`, {
+    const response = await axios.get(`/quiz/${id}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -130,7 +131,7 @@ export const fetchQuiz = id => async dispatch => {
 export const fetchShuffledQuiz = id => async dispatch => {
     const token = localStorage.getItem('token');
 
-    const response = await quizzes.get(`/quiz/${id}`, {
+    const response = await axios.get(`/quiz/${id}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -141,7 +142,7 @@ export const fetchShuffledQuiz = id => async dispatch => {
 export const editQuiz = (id, formValues) => async dispatch => {
     const token = localStorage.getItem('token');
 
-    const response = await quizzes.patch(
+    const response = await axios.patch(
         `/quiz/${id}`,
         formValues, {
         headers: {
@@ -156,7 +157,7 @@ export const editQuiz = (id, formValues) => async dispatch => {
 export const deleteQuiz = id => async dispatch => {
     const token = localStorage.getItem('token');
 
-    await quizzes.delete(`/quiz/${id}`, {
+    await axios.delete(`/quiz/${id}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
