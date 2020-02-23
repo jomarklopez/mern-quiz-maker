@@ -27,9 +27,7 @@ router.get('/quiz', auth, async (req, res) => {
         await req.user.populate({
             path: 'quizzes'
         }).execPopulate()
-        console.log(req.user)
-        console.log()
-        console.log(req.user.quizzes)
+
         res.status(200).send(req.user.quizzes)
     } catch (e) {
         res.status(500).send(e)
