@@ -1,8 +1,11 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://127.0.0.1:27017/quiz-maker-api', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: true
-})
+mongoose
+    .connect('mongodb+srv://jmlopez:mahesvara>@react-quiz-ky0fy.mongodb.net/test?retryWrites=true&w=majority', {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+        useFindAndModify: true
+    })
+    .then(() => console.log('MongoDB Connected...'))
+    .catch(err => console.log(err))
