@@ -1,6 +1,5 @@
 const express = require('express')
 const cors = require('cors')
-const path = require('path')
 const mongoose = require('mongoose')
 
 // Set up express server 
@@ -15,8 +14,8 @@ const quizRouter = require('./routers/quiz')
 
 // Connect mongoose to database 
 // mongodb://127.0.0.1:27017/quiz-create-api
-// "mongodb+srv://jmlopez:mahesvara@react-quiz-ky0fy.mongodb.net/test?retryWrites=true&w=majority";
-mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://jmlopez:mahesvara@react-quiz-ky0fy.mongodb.net/test?retryWrites=true&w=majority', {
+// mongodb+srv://jmlopez:mahesvara@react-quiz-ky0fy.mongodb.net/test?retryWrites=true&w=majority;
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/quiz-create-api', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

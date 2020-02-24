@@ -14,7 +14,8 @@ class QuizStart extends React.Component {
         super(props);
         this.userScore = 0;
         this.state = {
-            quizFinished: false
+            quizFinished: false,
+            userAnswers: null
         }
     }
 
@@ -24,22 +25,7 @@ class QuizStart extends React.Component {
     }
 
     onSubmit = formValues => {
-        this.checkQuiz(formValues);
-        this.setState({ quizFinished: true });
-    }
-
-    checkQuiz(answers) {
-
-        const questions = this.props.quiz.questions;
-        const userAnswers = Object.values(answers);
-
-        for (let index = 0; index < questions.length; index++) {
-            const question = questions[index];
-            console.log(question.answer + ' vs ' + userAnswers[index])
-            if (question.answer === userAnswers[index]) {
-                this.userScore++;
-            }
-        }
+        this.setState({ quizFinished: true, userAnswers: formValues });
     }
 
     renderRadioInput({ input, id, name, type }) {
@@ -120,7 +106,19 @@ class QuizStart extends React.Component {
         // Loading screen
         if (!this.props.quiz) {
             return (
-                <div>Loading....</div>
+                <div className="ui placeholder">
+                    <div className="image header">
+                        <div className="line"></div>
+                        <div className="line"></div>
+                    </div>
+                    <div className="paragraph">
+                        <div className="line"></div>
+                        <div className="line"></div>
+                        <div className="line"></div>
+                        <div className="line"></div>
+                        <div className="line"></div>
+                    </div>
+                </div>
             );
             // Game proper
         } else if (!this.state.quizFinished) {
@@ -136,12 +134,13 @@ class QuizStart extends React.Component {
                     </div>
                 </>
             );
-            // End Screen
+            // End Screen and Quiz Summary
         } else if (this.state.quizFinished) {
             return (
                 <div className="ui container segment">
                     <EndScreen
-                        content={`QUIZ FINISHED YOUR SCORE IS ${this.userScore} OUT OF ${this.props.quiz.questions.length}`}
+                        quiz={this.props.quiz}
+                        userAnswers={Object.values(this.state.userAnswers)}
                         actions={this.renderEndScreenAction()}
                     />
                 </div>

@@ -208,21 +208,34 @@ function removeEmptyLines(array) {
 }
 
 function createChoices(answerKey) {
-    const choices = [];
+    const choicesPool = [];
+
+    // Push copies of the answer key to the choices pool for each number of question
     for (let index = 0; index < answerKey.length; index++) {
-        choices.push([...answerKey])
+        choicesPool.push([...answerKey])
     }
-    //Randomly remove elements until 3 are left except the right answer
-    for (var i = 0; i <= choices.length - 1; i++) {
-        let el = choices[i];
-        while (el.length !== 4) {
-            let curIndex = Math.floor(Math.random() * el.length)
-            if (el[curIndex] !== answerKey[i]) {
-                el.splice(curIndex, 1);
+
+    // Randomly remove elements from the choices array until 4 are left including the right answer
+    for (var i = 0; i <= choicesPool.length - 1; i++) {
+        // Set the choices as the 4 choices for the current answer index
+        let choices = choicesPool[i];
+
+        // Randomly remove elements
+        // If there are 4 left then stop removing
+        while (choices.length !== 4) {
+            // Randomly choose an index 
+            let curIndex = Math.floor(Math.random() * choices.length)
+
+            // If the randomly chosen element is NOT the answer then remove it
+            // OR If the randomly chosen element IS the answer but the pool already includes the answer then remove it
+            if ((choices[curIndex] !== answerKey[i]) || choices.includes(answerKey[i])) {
+                choices.splice(curIndex, 1);
             }
         }
+
+        // Check if there are duplicates on each choices pool
     }
-    return choices;
+    return choicesPool;
 }
 
 export default connect(null, { createQuiz, clearQuestionForms })(QuizCreate);
