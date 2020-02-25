@@ -17,9 +17,12 @@ class QuizList extends React.Component {
 
     renderList() {
         if (Object.keys(this.props.quizzes).length !== 0) {
-            return this.props.quizzes.map(quiz => {
+            return this.props.quizzes.map((quiz, index) => {
+                if (index % 6 === 0) {
+
+                }
                 return (
-                    <div className="setCard" key={quiz._id} onClick={() => this.quizStart(quiz._id)}>
+                    <div className="four wide column setCard" key={quiz._id} onClick={() => this.quizStart(quiz._id)}>
                         <div className="ui simple icon bottom right floated dropdown button" onClick={(e) => e.stopPropagation()}>
                             <i className="ellipsis vertical icon"></i>
                             <div className="menu" >
@@ -54,12 +57,12 @@ class QuizList extends React.Component {
         return (
             <div className="ui container segment">
                 <h1>Select Quiz!</h1>
-                <div className="questSet-container">
+                <div className="ui grid questSet-container">
                     {this.renderList()}
-                    <Link to="/quiz/create" className="circular ui green icon button">
-                        {content}
-                    </Link>
                 </div>
+                <Link to="/quiz/create" className="circular ui green icon button">
+                    {content}
+                </Link>
             </div>
         )
     }
