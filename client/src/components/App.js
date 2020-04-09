@@ -22,7 +22,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <>
+            <div>
                 <Router history={history}>
                     <Menu />
                     <PrivateRoute path="/" exact component={QuizList} authed={this.props.currentUser} />
@@ -33,7 +33,7 @@ class App extends React.Component {
                     <PrivateRoute path="/quiz/delete/:quizId" exact component={QuizDelete} authed={this.props.currentUser} />
                     <PrivateRoute path="/quiz/edit/:quizId" exact component={QuizEdit} authed={this.props.currentUser} />
                 </Router>
-            </>
+            </div>
         )
     }
 };
