@@ -163,7 +163,7 @@ class StackedCards extends React.Component {
                                 <i className="right arrow icon"></i>
                             </div>
                         </div>
-                        <Link to="/" className="ui left floated red button">
+                        <Link to="/quizlist" className="ui left floated red button">
                             Back to Quiz List
                         </Link>
                     </div>

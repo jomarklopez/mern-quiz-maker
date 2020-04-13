@@ -97,7 +97,7 @@ class QuizStart extends React.Component {
     }
 
     renderEndScreenAction() {
-        return <Link to="/" className="ui button">
+        return <Link to="/quizlist" className="ui button">
             Back to Quiz List
                     </Link>
     }

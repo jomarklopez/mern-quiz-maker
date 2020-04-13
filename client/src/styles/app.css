@@ -1,0 +1,16 @@
+/* push the page content to the right when you open the side navigation */
+.appMain {
+    transition: margin-left .5s;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.sideBarActive {
+    margin-left: 250px;
+}
+
+
+
+
+

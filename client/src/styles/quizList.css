@@ -115,10 +115,10 @@ a:hover {
     .setCard:last-child {
         display: flex;
         border-style: dashed;
-        border-color: green;
+        border-color: rgb(95, 95, 95);
         background: white;
     }
-    
+
     .setCard:last-child .container {
         display: flex;
         height: 100%;

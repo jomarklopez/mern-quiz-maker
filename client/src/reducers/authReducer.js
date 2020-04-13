@@ -1,4 +1,4 @@
-import { CREATE_USER, SIGN_IN, SIGN_OUT } from '../actions/types';
+import { CREATE_USER_SUCCESS, SIGN_IN, SIGN_OUT } from '../actions/types';
 
 const INITIAL_STATE = {
     isSignedIn: null,
@@ -6,10 +6,11 @@ const INITIAL_STATE = {
     currentUser: null
 };
 
+
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case CREATE_USER:
-            return {}
+        case CREATE_USER_SUCCESS:
+            return {};
         case SIGN_IN:
             return { ...state, isSignedIn: true, userId: action.payload._id, currentUser: action.payload };
         case SIGN_OUT:

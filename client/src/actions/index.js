@@ -1,5 +1,8 @@
 import {
-    CREATE_USER,
+    SET_ERROR,
+    CREATE_USER_REQUEST,
+    CREATE_USER_SUCCESS,
+    CREATE_USER_ERROR,
     SIGN_IN,
     SIGN_OUT,
     ADD_QUESTION,
@@ -10,22 +13,55 @@ import {
     FETCH_SHUFFLED_QUIZ,
     EDIT_QUIZ,
     DELETE_QUIZ,
-    CLEAR_QUESTION
+    CLEAR_QUESTION,
+    HIDE_ERROR
 } from '../actions/types';
 import history from '../history';
 import axios from 'axios';
 
+
+
 /**
- *
+ *  ERROR HANDLING
+ */
+
+export const setError = error => async dispatch => {
+    dispatch({ type: SET_ERROR, error: error });
+}
+
+export const hideError = () => async dispatch => {
+    dispatch({ type: HIDE_ERROR });
+}
+
+/**
  * CRUD FOR USER ACCOUNT
  */
 
-export const createUser = formValues => async dispatch => {
-    const response = await axios.post('/users', formValues);
-    dispatch({ type: CREATE_USER, payload: response.data });
 
-    //Do some programmatic navigation to automatically bring the user back to the list of streams
-    history.push('/login');
+export const createUser = formValues => async dispatch => {
+    //dispatch({ type: CREATE_USER_REQUEST });
+    let response;
+    try {
+        response = await axios.post('/users', formValues);
+
+        if (response.statusText === "OK") {
+            console.log('OKAY!')
+            dispatch({ type: CREATE_USER_SUCCESS, payload: response.data, error: null });
+        } else {
+            console.log('Error?')
+            // if internally there are errors
+            // pass on the error, in a correct implementation
+            // such errors should throw an HTTP 4xx or 5xx error
+            // so that it directs straight to the catch block
+            dispatch({ type: CREATE_USER_ERROR, payload: null, error: response.error });
+        }
+    } catch (e) {
+        console.log('Errorcatch')
+        console.log(e)
+
+        dispatch({ type: CREATE_USER_ERROR, payload: null, error: e });
+    }
+
 };
 
 export const signInUser = formValues => async dispatch => {

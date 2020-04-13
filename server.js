@@ -17,7 +17,8 @@ const quizRouter = require('./routers/quiz')
 // mongodb+srv://jmlopez:mahesvara@react-quiz-ky0fy.mongodb.net/test?retryWrites=true&w=majority;
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/quiz-create-api', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 })
 
 mongoose.connection.on('connected', () => {
@@ -31,11 +32,18 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
+// Error handler
+app.use((req, res, next) => {
+    console.log('asdasd')
+    next()
+})
+
 // cors
 app.use(cors({ origin: true, credentials: true }))
 
 // Receive request from JSON to Objects
 app.use(express.json())
+
 
 // Telling express to use the following routers
 app.use(userRouter)

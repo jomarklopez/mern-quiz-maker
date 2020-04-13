@@ -37,6 +37,7 @@ class QuizDelete extends React.Component {
         return (
             <Modal
                 title="Delete Quiz"
+                visibility={true}
                 content={this.renderContent()}
                 actions={this.renderActions()}
                 onDismiss={() => history.push('/quizlist')}

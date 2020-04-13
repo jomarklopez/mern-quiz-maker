@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 import { signOutUser, getUserProfile } from '../../actions';
 
-import '../../styles/nav.css';
+import '../../styles/navbar.css';
 
-class AuthMenu extends React.Component {
+class AuthButton extends React.Component {
 
     componentDidMount = () => {
         if (this.props.isSignedIn) {
@@ -21,11 +21,14 @@ class AuthMenu extends React.Component {
     renderAuthButton() {
         if (this.props.isSignedIn) {
             return (
-                <li class="dropdown_item" onClick={this.onSignOutClick}>Sign Out</li>
+                <li className="dropdown_item" onClick={() => {
+                    this.props.sideBarOnclick()
+                    this.onSignOutClick()
+                }}>Sign Out</li>
             )
         } else {
             return (
-                <li class="dropdown_item"
+                <li className="dropdown_item"
                 ><Link to="/login">Login</Link>
                 </li>
 
@@ -45,4 +48,4 @@ const mapStateToProps = (state) => {
     return { isSignedIn: state.auth.isSignedIn };
 }
 
-export default connect(mapStateToProps, { signOutUser, getUserProfile })(AuthMenu);
+export default connect(mapStateToProps, { signOutUser, getUserProfile })(AuthButton);

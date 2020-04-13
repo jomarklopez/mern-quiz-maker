@@ -1,0 +1,40 @@
+.loginWrapper {
+    position: relative;
+}
+
+.loginContent {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    text-align: center;
+}
+
+.loginContent h1 {
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.loginBox {
+    width: 40vw;
+}
+
+.loginBackground {
+    height: 100vh;
+    background: #fff;
+    position: relative;
+    z-index: -1;
+}
+
+.curve-topleft {
+    position: absolute;
+}
+.curve-bottomright {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
