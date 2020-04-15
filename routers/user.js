@@ -13,7 +13,11 @@ router.post('/users', async (req, res, next) => {
         await user.save()
         res.status(200).send(user)
     } catch (e) {
-        res.status(400).send(e);
+        return next(e)
+    }
+}, (error, req, res, next) => {
+    if (error.code == 11000) {
+        res.status(409).send({ error: 'Email is already in use, please use a different email or retrieve your password by clicking forgot password' })
     }
 })
 

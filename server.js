@@ -31,13 +31,6 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'))
 }
 
-
-// Error handler
-app.use((req, res, next) => {
-    console.log('asdasd')
-    next()
-})
-
 // cors
 app.use(cors({ origin: true, credentials: true }))
 

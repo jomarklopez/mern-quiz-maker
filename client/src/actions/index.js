@@ -37,7 +37,6 @@ export const hideError = () => async dispatch => {
  * CRUD FOR USER ACCOUNT
  */
 
-
 export const createUser = formValues => async dispatch => {
     //dispatch({ type: CREATE_USER_REQUEST });
     let response;
@@ -55,13 +54,10 @@ export const createUser = formValues => async dispatch => {
             // so that it directs straight to the catch block
             dispatch({ type: CREATE_USER_ERROR, payload: null, error: response.error });
         }
+        signInUser({ email: formValues.email, password: formValues.password })
     } catch (e) {
-        console.log('Errorcatch')
-        console.log(e)
-
-        dispatch({ type: CREATE_USER_ERROR, payload: null, error: e });
+        dispatch({ type: CREATE_USER_ERROR, payload: null, error: e.response.data.error });
     }
-
 };
 
 export const signInUser = formValues => async dispatch => {

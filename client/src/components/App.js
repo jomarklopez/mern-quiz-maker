@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import history from '../history';
+import ErrorNotification from '../components/ErrorNotification';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
 import Login from './pages/Login';
@@ -51,6 +52,7 @@ class App extends React.Component {
                 <Router history={history}>
                     <NavBar sideBarToggle={this.toggleShowHide} sideBarActive={this.state.sideBarActive} isSignedIn={this.props.isSignedIn} />
                     <SideBar sideBarToggle={this.toggleShowHide} sideBarActive={this.state.sideBarActive} />
+                    <ErrorNotification />
                     <div className={this.state.sideBarActive ? "appMain sideBarActive" : "appMain"}>
                         <Route path="/login" exact component={login} />
                         <PrivateRoute path="/" exact component={Home} authed={this.props.currentUser} />

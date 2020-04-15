@@ -1,26 +1,35 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 
-const ErrorNotification = (props) => {
-    const isOpen = useSelector(state => state.errorReducer.isOpen);
-    const error = useSelector(state => state.errorReducer.error);
+import '../styles/errornotification.css';
 
-    const dispatch = useDispatch();
+const ErrorNotification = ({ errorState, dispatch }) => {
+
+    const error = errorState.error;
+    const isOpen = errorState.isOpen;
 
     function handleClose() {
-        dispatch({ type: HIDE_ERROR });
+        dispatch({ type: 'HIDE_ERROR' })
     }
 
     return (
         <>
             {isOpen && error && (
-                <div class="fancy-error-class">
-                    <button>Close Error</button>
-                    <span>{error}</span>
+                <div className="error_container">
+                    <div class="header">
+                        <span>{error}</span>
+                    </div>
+
+                    <div class="closeButton" onClick={handleClose}>
+                        <i class="close icon"></i>
+                    </div>
                 </div>
             )}
         </>
     )
 }
 
-export default ErrorNotification;
+function mapStateToProps(state) {
+    return { errorState: state.error }
+}
+export default connect(mapStateToProps)(ErrorNotification);

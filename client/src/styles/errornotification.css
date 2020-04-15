@@ -1,0 +1,15 @@
+.error_container {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    z-index: 20;
+    background-color: #f8d7db;
+    width: 100%;
+    padding: 10px;
+    cursor: default;
+}
+
+.closeButton {
+    margin: 0px 5px;
+    cursor: pointer;
+}
