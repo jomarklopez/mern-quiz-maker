@@ -13,8 +13,8 @@ class QuizEdit extends React.Component {
     }
 
     submitQuizBody(formValues) {
-        for (let index = 0; index < formValues.questions.length; index++) {
-            formValues.questions[index].answer = formValues.questions[index].options[0];
+        for (let index = 0; index < formValues.items.length; index++) {
+            formValues.items[index].answer = formValues.items[index].options[0];
         }
         this.props.editQuiz(this.props.match.params.quizId, formValues);
     }

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { ADD_QUESTION, REMOVE_QUESTION, CLEAR_QUESTION } from '../actions/types';
 
 const initState = [

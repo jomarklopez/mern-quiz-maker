@@ -1,5 +1,5 @@
 import React from 'react';
-import { reduxForm, Field, unregisterField } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 
 import AddQuestions from './AddQuestions';
@@ -25,6 +25,7 @@ class CreateManualQuizForm extends React.Component {
                     {...input}
                     placeholder={placeholder}
                     size="30"
+                    required
                 />
             </div>
         );
@@ -91,7 +92,7 @@ const mapStateToProps = (state, ownProps) => {
         return {
             questionForms: state.questionForms,
             initialValues: ownProps.quiz,
-            quizLength: ownProps.quiz.questions.length
+            quizLength: ownProps.quiz.items.length
         }
     } else {
         return {

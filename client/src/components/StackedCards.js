@@ -226,28 +226,7 @@ const StackedCards = (props) => {
             return null;
         }
     };
-
-    // If there is no pagination, display prev and next buttons
-    const renderPrevBtn = () => {
-        if (!props.paginationVisibility) {
-            return (
-                <button className="prevBtn" onClick={() => onClickPrevious()}>
-                    <i className="fas fa-chevron-left"></i>
-                </button>
-            );
-        }
-    };
-
-    const renderNextBtn = () => {
-        if (!props.paginationVisibility) {
-            return (
-                <button className="nextBtn" onClick={() => onClickNext()}>
-                    <i className="fas fa-chevron-right"></i>
-                </button>
-            );
-        }
-    };
-
+    
     // Actions for navigation
     const paginationActions = (action) => {
         switch (action) {

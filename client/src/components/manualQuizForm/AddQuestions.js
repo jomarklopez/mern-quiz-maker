@@ -5,10 +5,6 @@ import AddOptions from './AddOptions';
 
 class AddQuestions extends React.Component {
 
-    componentDidUpdate() {
-        this[`question-${this.props.questionId}`].focus()
-    }
-
     renderQuestionInput({ input, placeholder, meta: { touched, error } }) {
         // const className = `field ${touched && error ? 'error' : ''}` For optional error handling
         return (
@@ -16,7 +12,6 @@ class AddQuestions extends React.Component {
                 <input
                     {...input}
                     autoComplete="off"
-                    ref={input => this[`question-${this.props.questionId}`] = input}
                     placeholder={placeholder}
                     size="10"
                 />
