@@ -1,129 +1,141 @@
-
-a { 
-    color: inherit; 
-} 
-
-a:hover { 
-    color: inherit; 
-} 
-
-.setButtonContainers {
-    display: flex;
+a {
+	color: inherit;
 }
 
-.questSet-container {
-    top: 60px;
-    left: calc(50% - 300px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+a:hover {
+	color: inherit;
+}
+
+#quizListheader {
+	font-family: Helvetica, sans-serif;
+	font-weight: 500;
+	letter-spacing: 0px;
+}
+
+.setButtonContainers {
+	display: flex;
+}
+
+.quizSet-container {
+	top: 60px;
+	left: calc(50% - 300px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .setCard {
-    width: 50vw;
-    height: 50vw;
-    margin: 1vw;
-    background-color: #ffffff;
-    border-radius: 10px 10px 10px 10px;
-    box-shadow: 0px 3px 8px -1px rgba(0, 0, 0, 0.454);
-    justify-content: center;
-    transition:  0.2s cubic-bezier(1, 0, .50, 0), z-index 0.1s cubic-bezier(1, 0, 1, 0);
-    position: relative;
-    left: 0px;
-    cursor: pointer;
-    z-index: 0;
+	width: 50vw;
+	height: 50vw;
+	margin: 1vw;
+	background-color: #ffffff;
+	border-radius: 10px 10px 10px 10px;
+	box-shadow: 0px 3px 8px -1px rgba(0, 0, 0, 0.454);
+	justify-content: center;
+	transition: 0.2s cubic-bezier(1, 0, 0.5, 0),
+		z-index 0.1s cubic-bezier(1, 0, 1, 0);
+	position: relative;
+	left: 0px;
+	cursor: pointer;
+	z-index: 0;
 }
 
 .setCard_title {
-    width: 100%;
-    color: black;
-    font-weight: 300;
-    float: left;
-    text-align: center;
-    padding: 0px 10px;
+	width: 100%;
+	color: black;
+	font-weight: 300;
+	float: left;
+	text-align: center;
+	padding: 0px 10px;
 }
 
 .setCard_title:focus {
-    background-color: white;
-    outline: none;
+	background-color: white;
+	outline: none;
 }
 
 .noselect {
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
-
 
 .setCard:hover {
-    z-index: 1;
-    transform: translateY(-20px);
-    
+	z-index: 1;
+	transform: translateY(-20px);
 }
 
-.setCard:hover+.setCard {
-    position: relative;
-    z-index: 0;
-    left: 50px;
-    transition: 0.2s cubic-bezier(1, 0, .50, 0);
+.setCard:hover + .setCard {
+	position: relative;
+	z-index: 0;
+	left: 50px;
+	transition: 0.2s cubic-bezier(1, 0, 0.5, 0);
 }
 
 .dropdown {
-    background-color: #ffffff!important;
+	background-color: #ffffff !important;
 }
 
 .dropdown:hover {
-    background-color: #e0e1e2!important;
+	background-color: #e0e1e2 !important;
 }
 
-.dropdown:hover~.setCard {
-    background-color: black!important;
+.dropdown:hover ~ .setCard {
+	background-color: black !important;
 }
 
 .item {
-    z-index: 1;
-    background-color: #f9f9f9;
+	z-index: 1;
+	background-color: #f9f9f9;
 }
 
 .item:hover {
-    background-color: #e0e1e2!important;
+	background-color: #e0e1e2 !important;
+}
+
+/* Create Quiz Modal */
+.modal-content .cards label,
+.modal-content .cards input {
+	cursor: pointer;
+}
+
+.cards a {
+	margin: 15px;
 }
 
 @media only screen and (min-width: 768px) {
-    /* For desktop: */
+	/* For desktop: */
 
-    .questSet-container {
-        top: 60px;
-        left: calc(50% - 300px);
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+	.quizSet-container {
+		top: 60px;
+		left: calc(50% - 300px);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
 
-    .setCard {
-        padding: 0px!important; 
-        max-width: 200px;
-        max-height: 250px;
-    }
+	.setCard {
+		padding: 0px !important;
+		max-width: 200px;
+		max-height: 250px;
+	}
 
-    .setCard:not(:nth-child(6n+1)) {
-        margin-left: -50px;
-    }
+	.setCard:not(:nth-child(6n + 1)) {
+		margin-left: -50px;
+	}
 
-    .setCard:last-child {
-        display: flex;
-        border-style: dashed;
-        border-color: rgb(95, 95, 95);
-        background: white;
-    }
+	.setCard:last-child {
+		display: flex;
+		border-color: rgb(95, 95, 95);
+		background: white;
+	}
 
-    .setCard:last-child .container {
-        display: flex;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-    }
-    
+	.setCard:last-child .container {
+		display: flex;
+		height: 100%;
+		align-items: center;
+		justify-content: center;
+	}
 }

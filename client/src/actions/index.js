@@ -1,6 +1,5 @@
 import {
     SET_ERROR,
-    CREATE_USER_REQUEST,
     CREATE_USER_SUCCESS,
     CREATE_USER_ERROR,
     SIGN_IN,
@@ -111,7 +110,8 @@ export const clearQuestionForms = () => {
     }
 };
 
-export const removeQuestion = (questionId) => {
+export const removeQuestionForm = (questionId) => {
+    nextQuestionId -= 1;
     return {
         type: REMOVE_QUESTION,
         questionId
@@ -134,7 +134,7 @@ export const createQuiz = formValues => async dispatch => {
     );
     dispatch({ type: CREATE_QUIZ, payload: response.data });
     //Do some programmatic navigation to automatically bring the user back to the list of streams
-    history.push('/');
+    history.push('/quizlist');
 };
 
 export const fetchQuizzes = () => async dispatch => {
@@ -195,5 +195,5 @@ export const deleteQuiz = id => async dispatch => {
     });
 
     dispatch({ type: DELETE_QUIZ, payload: id });
-    history.push('/');
+    history.push('/quizlist');
 };

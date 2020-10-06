@@ -1,65 +1,41 @@
 import React from 'react';
-import { Field } from 'redux-form';
+
+import Add4Choice from './Add4Choice';
+import AddFillBlankChoice from './AddFillBlank';
+import AddPoolOfChoices from './AddPoolOfChoices';
 
 class AddOptions extends React.Component {
 
-    renderOption({ input, placeholder, meta: { touched, error } }) {
-        // const className = `ui field input ${error && touched ? 'error' : ''}`; For optional error handling
-        return (
-            <div className="field" >
-                <input
-                    {...input}
-                    autoComplete="off"
-                    placeholder={placeholder}
-                />
-            </div>
-        )
+    constructor(props) {
+        super(props)
+        this.state = {
+            optionType: '4choice'
+        }
+    }
+
+    componentWillUnmount() {
+        console.log('Gonna unmount this option');
+    }
+
+    handleChange = (event) => {
+        this.setState({ optionType: event.target.value });
+    };
+
+    renderOptions(type) {
+        switch (type) {
+            case '4choice':
+                return <Add4Choice />
+            case 'FillBlank':
+                return <AddFillBlankChoice />
+            case 'PoolofChoices':
+                return <AddPoolOfChoices />
+            default:
+                break;
+        }
     }
 
     render() {
-        return (
-            <>
-                <label>Options:</label>
-                <div className="ui internally celled grid">
-                    <div className="row">
-                        <div className="eight wide column">
-                            <Field
-                                name={`0`}
-                                component={this.renderOption.bind(this)}
-                                placeholder="Enter the question's answer here."
-                                optionNumber="0"
-                            />
-                        </div>
-                        <div className="eight wide column">
-                            <Field
-                                name={`1`}
-                                component={this.renderOption.bind(this)}
-                                placeholder="Enter an option."
-                                optionNumber="1"
-                            />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="eight wide column">
-                            <Field
-                                name={`2`}
-                                component={this.renderOption.bind(this)}
-                                placeholder="Enter an option."
-                                optionNumber="2"
-                            />
-                        </div>
-                        <div className="eight wide column">
-                            <Field
-                                name={`3`}
-                                component={this.renderOption.bind(this)}
-                                placeholder="Enter an option."
-                                optionNumber="3"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </>
-        );
+        return <Add4Choice />;
     }
 }
 export default AddOptions;

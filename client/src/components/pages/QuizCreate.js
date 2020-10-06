@@ -19,12 +19,14 @@ class QuizCreate extends React.Component {
     }
 
     submitQuizBody(formValues) {
-        if (this.state.showManualQuizForm) {
-            for (let index = 0; index < formValues.questions.length; index++) {
-                formValues.questions[index].answer = formValues.questions[index].options[0];
+        console.log(formValues);
+        if (this.state.createMethod === 'manual') {
+            for (let index = 0; index < formValues.items.length; index++) {
+                const item = formValues.items[index];
+                item.answer = item.options[0];
             }
             this.props.createQuiz(formValues);
-        } else if (this.state.showAutoQuizForm) {
+        } else if (this.state.createMethod === 'auto') {
             let questionsInput = removeEmptyLines(formValues.questionsForm.split(/\n/));
             let answerKey = removeEmptyLines(formValues.answersForm.split(/\n/));
             let choices = createChoices(answerKey);
@@ -55,7 +57,7 @@ class QuizCreate extends React.Component {
             <div className="ui right floated buttons">
                 <button type="submit" className="ui green button">Submit</button>
                 <div className="or"></div>
-                <Link to="/" className="ui button">
+                <Link to="/quizlist" className="ui button">
                     Cancel
                 </Link>
             </div>
@@ -64,9 +66,9 @@ class QuizCreate extends React.Component {
 
     renderForm() {
         if (this.state.createMethod === 'manual') {
-            return <CreateManualQuizForm actions={this.renderFormActions()} onSubmit={this.onSubmit} />;
+            return <CreateManualQuizForm actions={this.renderFormActions()} onSubmit={this.onSubmit} quizLength={3}/>;
         } else if (this.state.createMethod === 'auto') {
-            return <CreateAutoQuizForm onSubmit={this.onSubmit} />;
+            return <CreateAutoQuizForm actions={this.renderFormActions()} onSubmit={this.onSubmit} />;
         }
     }
 

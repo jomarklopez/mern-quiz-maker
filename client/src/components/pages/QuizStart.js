@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 
 import { fetchShuffledQuiz } from '../../actions';
-import EndScreen from '../EndScreen';
+import QuizFinish from '../QuizFinish';
 import StackedCards from '../StackedCards';
 import '../../styles/quizStart.css';
 
@@ -34,58 +34,58 @@ class QuizStart extends React.Component {
         );
     }
 
-    renderQuestionList() {
-        return this.props.quiz.questions.map((question, index) => {
+    renderItems() {
+        return this.props.quiz.items.map((item, index) => {
             return (
                 <div className="content" key={index}>
                     <label>Question {index + 1}: </label>
-                    <h3>{question.question}</h3>
+                    <h3>{item.item}</h3>
                     <form className="ui form">
                         <label>Options:</label>
                         <div className="ui internally celled center aligned grid">
                             <div className="row">
                                 <div className="eight wide column option-container">
                                     <Field
-                                        id={`${question._id}-0-${question.options[0]}`}
+                                        id={`${item._id}-0-${item.options[0]}`}
                                         type="radio"
-                                        name={question._id}
+                                        name={item._id}
                                         component={this.renderRadioInput}
-                                        value={question.options[0]}
+                                        value={item.options[0]}
                                     />
-                                    <label htmlFor={`${question._id}-0-${question.options[0]}`}> {question.options[0]}
+                                    <label htmlFor={`${item._id}-0-${item.options[0]}`}> {item.options[0]}
                                     </label>
                                 </div>
                                 <div className="eight wide column option-container">
                                     <Field
-                                        id={`${question._id}-1-${question.options[1]}`}
+                                        id={`${item._id}-1-${item.options[1]}`}
                                         type="radio"
-                                        name={question._id}
+                                        name={item._id}
                                         component={this.renderRadioInput}
-                                        value={question.options[1]}
+                                        value={item.options[1]}
                                     />
-                                    <label htmlFor={`${question._id}-1-${question.options[1]}`}>{question.options[1]}
+                                    <label htmlFor={`${item._id}-1-${item.options[1]}`}>{item.options[1]}
                                     </label>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="eight wide column option-container">
                                     <Field
-                                        id={`${question._id}-2-${question.options[2]}`} type="radio"
-                                        name={question._id}
+                                        id={`${item._id}-2-${item.options[2]}`} type="radio"
+                                        name={item._id}
                                         component={this.renderRadioInput}
-                                        value={question.options[2]} />
-                                    <label htmlFor={`${question._id}-2-${question.options[2]}`}>{question.options[2]}
+                                        value={item.options[2]} />
+                                    <label htmlFor={`${item._id}-2-${item.options[2]}`}>{item.options[2]}
                                     </label>
                                 </div>
                                 <div className="eight wide column option-container">
                                     <Field
-                                        id={`${question._id}-3-${question.options[3]}`}
+                                        id={`${item._id}-3-${item.options[3]}`}
                                         type="radio"
-                                        name={question._id}
+                                        name={item._id}
                                         component={this.renderRadioInput}
-                                        value={question.options[3]}
+                                        value={item.options[3]}
                                     />
-                                    <label htmlFor={`${question._id}-3-${question.options[3]}`}> {question.options[3]}
+                                    <label htmlFor={`${item._id}-3-${item.options[3]}`}> {item.options[3]}
                                     </label>
                                 </div>
                             </div>
@@ -94,6 +94,32 @@ class QuizStart extends React.Component {
                 </div>
             )
         })
+    }
+
+    renderActionButtons(lastItem, onClickNext) {
+        if (lastItem) {
+            return (
+                <div className="ui clearing segment">
+                    <div className="ui right floated green button" tabIndex="0" onClick={this.props.handleSubmit(this.onSubmit)}>
+                        <div className="visible content">Finish Quiz</div>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div className="ui clearing segment">
+                    <div className="ui right floated animated green button" tabIndex="0" onClick={() => onClickNext()}>
+                        <div className="visible content">Next Question</div>
+                        <div className="hidden content">
+                            <i className="right arrow icon"></i>
+                        </div>
+                    </div>
+                    <Link to="/quizlist" className="ui left floated red button">
+                        Back to Quiz List
+                    </Link>
+                </div>
+            )
+        }
     }
 
     renderEndScreenAction() {
@@ -128,8 +154,14 @@ class QuizStart extends React.Component {
                         <h1>{this.props.quiz.quizName}</h1>
                     </div>
                     <div className="ui container segment">
-                        <StackedCards onSubmit={this.props.handleSubmit(this.onSubmit)} actions="true" pagination="false" carousel="false">
-                            {this.renderQuestionList()}
+                        <StackedCards
+                            swipeAnimationDirection="right"
+                            paginationVisibility={false}
+                            carousel={false}
+                            pagination={false}
+                            actionButtons={this.renderActionButtons.bind(this)}
+                            >
+                            {this.renderItems()}
                         </StackedCards>
                     </div>
                 </>
@@ -138,7 +170,7 @@ class QuizStart extends React.Component {
         } else if (this.state.quizFinished) {
             return (
                 <div className="ui container segment">
-                    <EndScreen
+                    <QuizFinish
                         quiz={this.props.quiz}
                         userAnswers={Object.values(this.state.userAnswers)}
                         actions={this.renderEndScreenAction()}

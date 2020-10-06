@@ -1,90 +1,133 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 
 import Pagination from './Pagination';
 import '../styles/stackedCards.css';
 
-class StackedCards extends React.Component {
-    constructor(props) {
-        super(props);
-        this.contentList = [];
-        this.items = 3;
-        this.elementsMargin = 10;
-        this.currentCard = React.createRef();
-        this.state = {
-            currentPosition: 0
-        }
-    }
+const StackedCards = (props) => {
+    let contentList = [];
+    let numOfCards = props.children.length;
+    let elTrans = 0;
+    let visibleCards = 2;
+    let elementsMargin = 10;
 
-    onClickLeft() {
-        if (this.state.currentPosition < this.maxElements - 1) {
-            this.swipeLeftAnimate(-1000, 0, 0, this.currentCard.current);
+    const currentCard = useRef(null);
+
+    const [currentPosition, setCurrentPosition] = useState(0);
+
+    const onClickNext = () => {
+        if (currentPosition < numOfCards - 1) {
+            swipeAnimate(currentCard.current);
             setTimeout(() => {
-                this.setState({ currentPosition: this.state.currentPosition + 1 });
-            }, 300);
-        } else if (this.props.carousel === "true") {
+                setCurrentPosition(currentPosition + 1);
+            }, 500);
+        } else if (props.carousel === true) {
             // For carousel effect, to go back to the first card
-            this.swipeLeftAnimate(-1000, 0, 0, this.currentCard.current);
+            swipeAnimate(currentCard.current);
             setTimeout(() => {
-                this.setState({ currentPosition: 0 });
-            }, 300);
+                setCurrentPosition(0);
+            }, 500);
         }
-    }
+    };
 
-    onClickRight() {
-        if (this.state.currentPosition !== 0) {
-            this.setState({ currentPosition: this.state.currentPosition - 1 });
+    const onClickPrevious = () => {
+        if (currentPosition !== 0) {
+            setCurrentPosition(currentPosition - 1);
         }
-    }
+    };
 
-    swipeLeftAnimate(moveX, moveY, opacity, elementObj) {
-        let element = elementObj;
+    const swipeAnimate = (card) => {
+        let element = card;
+        let moveX = 0;
+        let moveY = 0;
+        let opacity = 1;
+        //Set animation direction
+        let distanceWidth = currentCard.current.offsetWidth + 50;
+        let distanceHeight = currentCard.current.offsetHeight + 50;
+
+        switch (props.swipeAnimationDirection) {
+            case 'left':
+                moveX = -distanceWidth;
+                break;
+            case 'right':
+                moveX = distanceWidth;
+                break;
+            case 'top':
+                moveY = -distanceHeight;
+                break;
+            case 'bottom':
+                moveY = distanceHeight;
+                break;
+            default:
+                break;
+        }
+
         let rotateElement = RotateRegulator(moveX);
-
-        // Function to set rotate direction 
+        // Function to set rotate direction
         function RotateRegulator(value) {
             if (value / 10 > 15) {
                 return 15; // Rotate to the right
-            }
-            else if (value / 10 < -15) {
+            } else if (value / 10 < -15) {
                 return -15; // Rotate to the left
             }
             return value / 10;
         }
 
-        this.elTrans = this.elementsMargin * (this.items - 1);
+        elTrans = elementsMargin * (visibleCards - 1);
         if (element) {
-            element.style.WebkitTransform = "translateX(" + moveX + "px) translateY(" + (moveY + this.elTrans) + "px) translateZ(0) rotate(" + rotateElement + "deg)";
-            element.style.transform = "translateX(" + moveX + "px) translateY(" + (moveY + this.elTrans) + "px) translateZ(0) rotate(" + rotateElement + "deg)";
+            element.style.transform =
+                'translateX(' +
+                moveX +
+                'px) translateY(' +
+                moveY +
+                'px) translateZ(0) rotate(' +
+                rotateElement +
+                'deg)';
+            element.style.opacity = opacity;
+
+            setTimeout(function () {
+                element.style.transform =
+                    'scale(0.92) translateX(0px) translateY(0px) translateZ(0) rotate(0deg)';
+                element.style.zIndex = visibleCards - currentPosition;
+            }, 300);
         }
-    }
+    };
 
-    renderCardStackStyle(cards) {
-
-        this.elTrans = 0;
-        this.maxElements = cards.length;
+    const renderCardStackStyle = (cards) => {
+        let element;
         let elZindex = 5;
         let elScale = 1;
-        let elTransTop = this.items;
-        let elTransInc = this.elementsMargin;
-        let addedClass = 'stackedcards-top stackedcards--animatable stackedcards-origin-top';
+        let visible = visibleCards;
+        let elTransInc = elementsMargin;
+        let addedClass =
+            'stackedcards-top card__animation stackedcards-origin-top';
 
         // Cards container
         let clones = [];
+        // Fill up the clones with a for loop,
+        // Create clones of every card if carousel is True
 
-        for (let i = this.state.currentPosition; i < this.maxElements; i++) {
-            if (i < (this.state.currentPosition + this.items)) {
+        // loop over from the current position up to the number of cards available, adding to this will be the number of visible cards chosen to give space for extra cards for a carousel effect
+        for (let i = currentPosition; i < numOfCards; i++) {
+            if (i < currentPosition + visibleCards) {
+                // If has almost ran out of cards to get, then push back to the start of cards available.
+                if (i >= numOfCards) {
+                    element = cards[i - numOfCards];
+                } else {
+                    element = cards[i];
+                }
                 // Set the style for each cards in the view
-                const element = cards[i];
                 if (element) {
-                    this.elTrans = elTransInc * elTransTop;
-                    elTransTop--;
+                    elTrans = elTransInc * visible;
+                    visible--;
                     const clone = React.cloneElement(element, {
-                        className: classNames(element.props.className, addedClass),
+                        className: classNames(
+                            element.props.className,
+                            addedClass
+                        ),
                         style: {
-                            transform: `scale(${elScale}) translateX(0px) translateY(${this.elTrans - elTransInc}px) translateZ(0px)`,
-                            WebkitTransform: `scale(${elScale}) translateX(0px) translateY(${this.elTrans - elTransInc}px) translateZ(0px)`,
+                            transform: `scale(${elScale}) translateX(0px) translateY(${elTrans - elTransInc
+                                }px) translateZ(0px)`,
                             zIndex: elZindex
                         }
                     });
@@ -94,14 +137,19 @@ class StackedCards extends React.Component {
                 }
             } else {
                 // Set the style for each cards in the outside of the set view
-                const element = cards[i];
-                let elTrans = this.elementsMargin * (this.items - 1);
+                element = cards[i];
+                let elTrans = elementsMargin * (visibleCards - 1);
                 if (element) {
                     const clone = React.cloneElement(element, {
-                        className: classNames(element.props.className, addedClass),
+                        className: classNames(
+                            element.props.className,
+                            addedClass
+                        ),
                         style: {
-                            transform: `scale(${1 - (this.items * 0.04)}) translateX(0px) translateY(${elTrans}px) translateZ(0px)`,
-                            WebkitTransform: `scale(${1 - (this.items * 0.04)}) translateX(0px) translateY(${elTrans}px) translateZ(0px)`,
+                            transform: `scale(${1 - visibleCards * 0.04
+                                }) translateX(0px) translateY(${elTrans}px) translateZ(0px)`,
+                            WebkitTransform: `scale(${1 - visibleCards * 0.04
+                                }) translateX(0px) translateY(${elTrans}px) translateZ(0px)`,
                             opacity: 1,
                             zIndex: 0
                         }
@@ -109,65 +157,53 @@ class StackedCards extends React.Component {
                     clones.push(clone);
                 }
             }
-
         }
+
         return clones;
-    }
+    };
 
-    renderCards(contentList) {
-        this.contentList = contentList;
+    const renderCards = (contents) => {
+        contentList = contents;
         // Insert content to cards and put ref to currentCard
-        const cards = this.contentList.map(content => {
-            if (Number(content.key) === this.state.currentPosition) {
+        let cards = contentList.map((content) => {
+            if (Number(content.key) === currentPosition) {
                 return (
                     <div
                         className="card-item"
-                        ref={this.currentCard}
+                        ref={currentCard}
                         key={content.key}
                     >
                         {content}
                     </div>
-                )
+                );
+            } else if (Number(content.key) === currentPosition - 1) {
+                return (
+                    <div
+                        className="card-item"
+                        key={content.key}
+                    >
+                        {content}
+                    </div>
+                );
             } else {
                 return (
-                    <div
-                        className="card-item"
-                        key={content.key}
-                    >
+                    <div className="card-item" key={content.key}>
                         {content}
                     </div>
-                )
+                );
             }
-        })
+        });
+        // Set card styles before returning
+        return renderCardStackStyle(cards);
+    };
 
-        return this.renderCardStackStyle(cards);
-    }
-
-    // Determine where to display the action buttons 
-    renderActionButtons(action) {
-        if (action === "true") {
-            if (this.state.currentPosition === this.maxElements - 1) {
-                return (
-                    <div className="ui clearing segment">
-                        <div className="ui right floated green button" tabIndex="0" onClick={() => this.props.onSubmit()}>
-                            <div className="visible content">Finish Quiz</div>
-                        </div>
-                    </div>
-                )
+    // Quiz Controls
+    const renderActionButtons = () => {
+        if (props.actionButtons) {
+            if (currentPosition === numOfCards - 1) {
+                return props.actionButtons(true, onClickNext)
             } else {
-                return (
-                    <div className="ui clearing segment">
-                        <div className="ui right floated animated green button" tabIndex="0" onClick={() => this.onClickLeft()}>
-                            <div className="visible content">Next Question</div>
-                            <div className="hidden content">
-                                <i className="right arrow icon"></i>
-                            </div>
-                        </div>
-                        <Link to="/quizlist" className="ui left floated red button">
-                            Back to Quiz List
-                        </Link>
-                    </div>
-                )
+                return props.actionButtons(false, onClickNext)
             }
         } else {
             return null;
@@ -175,55 +211,93 @@ class StackedCards extends React.Component {
     }
 
     // Determine whether to display pagination
-    renderPagination(pagination) {
-        if (pagination === "true") {
+    const renderPagination = (paginationVisibility) => {
+        if (paginationVisibility === true) {
             return (
-                <div className="ui center aligned container">
-                    <Pagination actions={this.actions.bind(this)} numOfItems={this.maxElements} />
+                <div className="pagination__container">
+                    <Pagination
+                        actions={paginationActions.bind(this)}
+                        numOfItems={numOfCards}
+                        currentPosition={currentPosition}
+                    />
                 </div>
             );
         } else {
             return null;
         }
-    }
+    };
+
+    // If there is no pagination, display prev and next buttons
+    const renderPrevBtn = () => {
+        if (!props.paginationVisibility) {
+            return (
+                <button className="prevBtn" onClick={() => onClickPrevious()}>
+                    <i className="fas fa-chevron-left"></i>
+                </button>
+            );
+        }
+    };
+
+    const renderNextBtn = () => {
+        if (!props.paginationVisibility) {
+            return (
+                <button className="nextBtn" onClick={() => onClickNext()}>
+                    <i className="fas fa-chevron-right"></i>
+                </button>
+            );
+        }
+    };
 
     // Actions for navigation
-    actions(action) {
+    const paginationActions = (action) => {
         switch (action) {
-            case 'first':
-                this.setState({ currentPosition: 0 });
+            case 'next':
+                onClickNext();
                 break;
-            case 'last':
-                this.setState({ currentPosition: this.maxElements - 1 });
+            case 'previous':
+                onClickPrevious();
                 break;
-            case 'forward':
-                this.onClickLeft();
+            case 'addquestion':
+                if (currentPosition === numOfCards - 1) {
+                    props.adtlActions('addQuestionForm');
+                }
+                swipeAnimate(currentCard.current);
+                setTimeout(() => {
+                    setCurrentPosition(currentPosition + 1);
+                }, 500);
                 break;
-            case 'backward':
-                this.onClickRight();
+            case 'removequestion':
+                props.adtlActions('removeQuestionForm', currentPosition);
+                if (currentPosition === numOfCards - 1) {
+                    setCurrentPosition(currentPosition - 1);
+                } else if (currentPosition !== 0) {
+                    setCurrentPosition(currentPosition);
+                } else {
+                    setCurrentPosition(0)
+                }
                 break;
             default:
                 break;
         }
 
         if (typeof action === 'number') {
-            this.setState({ currentPosition: action });
+            if (action < numOfCards && action >= 0) {
+                setCurrentPosition(action);
+            }
         }
-    }
+    };
 
-    render() {
-        return (
-            <>
-                {this.renderPagination(this.props.pagination)}
-                <div id="stacked-cards-block" className="content stackedcards stackedcards--animatable init">
-                    <div className="stackedcards-container">
-                        {this.renderCards(this.props.children)}
-                    </div>
+    return (
+        <>
+            {renderPagination(props.paginationVisibility)}
+            <div id="stacked-cards-block" className=" stackedcards stackedcards--animatable init">
+                <div className="stackedcards-container">
+                    {renderCards(props.children)}
                 </div>
-                {this.renderActionButtons(this.props.actions)}
-            </>
-        )
-    }
+            </div>
+            {renderActionButtons()}
+        </>
+    )
 }
 
 export default StackedCards;

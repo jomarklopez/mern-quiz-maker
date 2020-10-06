@@ -3,7 +3,7 @@ const Quiz = require('../models/quiz')
 const auth = require('../middleware/auth')
 const router = new express.Router()
 
-// Create question
+// Create quiz
 router.post('/quiz', auth, async (req, res) => {
 
     const quiz = new Quiz({

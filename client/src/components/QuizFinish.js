@@ -1,16 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-class EndScreen extends React.Component {
+class QuizFinish extends React.Component {
     constructor(props) {
         super(props);
         this.userScore = 0;
         this.quizSummary = [];
     }
     // Count total score and create a list of correct and wrong answers
-    checkQuizScore(questions, userAnswers) {
+    checkQuizScore(items, userAnswers) {
 
-        for (let index = 0; index < questions.length; index++) {
-            const question = questions[index];
+        for (let index = 0; index < items.length; index++) {
+            const question = items[index];
             if (question.answer === userAnswers[index]) {
                 this.userScore++;
                 this.quizSummary.push(
@@ -19,7 +20,7 @@ class EndScreen extends React.Component {
                             <h3 className="ui header">
                                 <div className="content">
                                     <div className="sub header">Question {index + 1}</div>
-                                    {this.props.quiz.questions[index].question}
+                                    {this.props.quiz.items[index].question}
                                 </div>
                             </h3>
                             <div className="description">
@@ -36,7 +37,7 @@ class EndScreen extends React.Component {
                             <h3 className="ui header">
                                 <div className="content">
                                     <div className="sub header">Question {index + 1}</div>
-                                    {this.props.quiz.questions[index].question}
+                                    {this.props.quiz.items[index].question}
                                 </div>
                             </h3>
                             <div className="description">
@@ -44,7 +45,7 @@ class EndScreen extends React.Component {
                                 {this.props.userAnswers[index]}
                             </div>
                             <div className="extra content">
-                                Correct answer:                                 {this.props.quiz.questions[index].answer}
+                                Correct answer:                                 {this.props.quiz.items[index].answer}
                             </div>
                         </div>
                     </>
@@ -55,10 +56,10 @@ class EndScreen extends React.Component {
     }
 
     renderScoreStars() {
-        let numOfQuestions = this.props.quiz.questions.length;
+        let numOfItems = this.props.quiz.items.length;
 
         // Calculate Score Precent
-        let percent = (this.userScore / numOfQuestions) * 100;
+        let percent = (this.userScore / numOfItems) * 100;
 
         // Determine number of active stars 
         let starCount;
@@ -101,8 +102,8 @@ class EndScreen extends React.Component {
     }
 
     renderQuizSummary() {
-        return this.quizSummary.map((question, index) => (
-            <div style={{ pointerEvents: "none" }} className="item" key={index}>{question}</div>
+        return this.quizSummary.map((item, index) => (
+            <div style={{ pointerEvents: "none" }} className="item" key={index}>{item}</div>
         ));
     }
 
@@ -111,7 +112,7 @@ class EndScreen extends React.Component {
             <div className="ui container">
                 <div className="ui center aligned content container">
                     <h1>
-                        {this.checkQuizScore(this.props.quiz.questions, this.props.userAnswers)}/{this.props.quiz.questions.length}
+                        {this.checkQuizScore(this.props.quiz.items, this.props.userAnswers)}/{this.props.quiz.items.length}
                     </h1>
                     <div className="ui disabled massive star rating" role="radiogroup" tabIndex="-1">
                         {this.renderScoreStars()}
@@ -119,10 +120,13 @@ class EndScreen extends React.Component {
                 </div>
                 <div className="ui divided items">
                     {this.renderQuizSummary()}
+                    <Link to="/quizlist" className="ui green button">
+                        Back to Quiz List
+                    </Link>
                 </div>
             </div>
         )
     }
 }
 
-export default EndScreen;
+export default QuizFinish;

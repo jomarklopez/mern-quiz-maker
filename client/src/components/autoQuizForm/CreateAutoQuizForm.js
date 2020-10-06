@@ -60,7 +60,7 @@ class CreateAutoQuizForm extends React.Component {
                         placeholder="Put your answers here"
                         validate={[required]}
                     />
-                    <button className="ui button float right primary">Submit</button>
+                    {this.props.actions}
                 </div>
             </form>
         )

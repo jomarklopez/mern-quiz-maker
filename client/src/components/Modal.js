@@ -8,7 +8,7 @@ const Modal = props => {
         <div className={toggleModal} onClick={props.onDismiss}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <div className="header">
-                    {props.title}
+                    <h1>{props.title}</h1>
                 </div>
                 <div className="content">
                     {props.content}

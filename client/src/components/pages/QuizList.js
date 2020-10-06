@@ -48,17 +48,7 @@ class QuizList extends React.Component {
                     </div>
                 );
             });
-        } else {
-            return (
-                <></>
-                /* <div className="ui placeholder segment">
-                    <div className="ui icon header">
-                        <i className="dont icon"></i>
-                        No quiz have been added yet
-                    </div>
-                </div> */
-            )
-        }
+        } 
     }
 
     // CREATE QUIZ CHOICES MODAL
@@ -68,13 +58,13 @@ class QuizList extends React.Component {
 
     renderModalContent() {
         return (
-            <div className="ui centered cards">
+            <div className="ui two cards">
                 <Link to={"/quiz/create/auto"} >
                     <div className="ui link card" onClick={this.toggleCreateModal.bind(this)}>
                         <div className="content">
                             <div className="header">
                                 Automatic
-                                </div>
+                            </div>
                             <div className="ui form">
                                 <div className="field">
                                     <label>Questions</label>
@@ -171,7 +161,11 @@ class QuizList extends React.Component {
     }
 
     renderActions() {
-        return <button type="button" onClick={this.toggleCreateModal.bind(this)} className="ui button">Cancel</button>;
+        return (
+            <div className="ui right floated buttons">
+                <button type="button" onClick={this.toggleCreateModal.bind(this)} className="ui button">Cancel</button>;
+            </div>
+        )
     }
 
     renderQuizCreate() {
@@ -189,14 +183,14 @@ class QuizList extends React.Component {
             <>
                 {this.renderQuizCreate()}
                 <div className="ui container">
-                    <h2 className="ui header">
+                    <h2 className="ui header" id="quizListheader">
                         <i className="book icon"></i>
                         <div className="content">
                             Quiz List
                     <div className="sub header">Start or Create a Quiz</div>
                         </div>
                     </h2>
-                    <div className="ui grid questSet-container">
+                    <div className="ui grid quizSet-container">
                         {this.renderList()}
                         <div onClick={this.toggleCreateModal.bind(this)} className="four wide column setCard">
                             <div className="ui container">

@@ -16,12 +16,12 @@ const ErrorNotification = ({ errorState, dispatch }) => {
         <>
             {isOpen && error && (
                 <div className="error_container">
-                    <div class="header">
+                    <div className="header">
                         <span>{error}</span>
                     </div>
 
-                    <div class="closeButton" onClick={handleClose}>
-                        <i class="close icon"></i>
+                    <div className="closeButton" onClick={handleClose}>
+                        <i className="close icon"></i>
                     </div>
                 </div>
             )}

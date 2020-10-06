@@ -3,7 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 
 import AddQuestions from './AddQuestions';
-import { addQuestionForm, clearQuestionForms } from '../../actions';
+import { addQuestionForm, removeQuestionForm, clearQuestionForms } from '../../actions';
 import StackedCards from '../StackedCards';
 
 const required = value => (value || typeof value === 'number' ? undefined : 'Required');
@@ -12,13 +12,6 @@ class CreateManualQuizForm extends React.Component {
 
     onSubmit = formValues => {
         this.props.onSubmit(formValues);
-    }
-
-    componentDidMount() {
-        this.props.clearQuestionForms();
-        for (let index = 0; index < this.props.quizLength - 1; index++) {
-            this.props.addQuestionForm();
-        }
     }
 
     renderLabeledInput({ input, label, placeholder, meta: { touched, error } }) {
@@ -47,6 +40,20 @@ class CreateManualQuizForm extends React.Component {
         })
     }
 
+    formActions = (type, currentPosition) => {
+        switch (type) {
+            case 'addQuestionForm':
+                this.props.addQuestionForm()
+                break;
+            case 'removeQuestionForm':
+                this.props.removeQuestionForm(currentPosition)
+                this.props.resetSection(`item.${currentPosition}`)
+                break;
+            default:
+                break;
+        }
+    }
+
     render() {
         return (
             <form className="ui form" onSubmit={this.props.handleSubmit(this.onSubmit)} >
@@ -61,8 +68,12 @@ class CreateManualQuizForm extends React.Component {
                 </div>
                 {/* Form Card */}
                 <div className="ui card container fluid" >
-                    {/*  Each card under stacked cards will be the child of stacked cards*/}
-                    <StackedCards pagination="true" carousel="true">
+                    <StackedCards
+                        swipeAnimationDirection="right"
+                        paginationVisibility={true}
+                        adtlActions={this.formActions}
+                        carousel={false}
+                    >
                         {this.renderQuestionList()}
                     </StackedCards>
                     <div className="extra content">
@@ -93,4 +104,4 @@ const form = reduxForm({
     form: 'manualQuizForm'
 })(CreateManualQuizForm);
 
-export default connect(mapStateToProps, { addQuestionForm, clearQuestionForms })(form);
+export default connect(mapStateToProps, { addQuestionForm, clearQuestionForms, removeQuestionForm })(form);
