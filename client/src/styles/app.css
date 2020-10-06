@@ -3,9 +3,14 @@
 	transition: margin-left 0.5s;
 	position: relative;
 	z-index: 1;
-	margin: 50px 50px 0px 50px;
 }
 
 .sideBarActive {
-	margin-left: 300px;
+	margin-left: 250px;
+}
+
+.quizList-container,
+.quizStart-container,
+.quizCreate-container {
+	margin: 50px 50px 0px 50px;
 }

@@ -65,7 +65,7 @@ export const signInUser = formValues => async dispatch => {
     localStorage.setItem('user', response.data.user)
     localStorage.setItem('token', response.data.token);
     dispatch({ type: SIGN_IN, payload: response.data.user });
-    history.push('/');
+    history.push('/quizlist');
 };
 
 export const signOutUser = () => async dispatch => {

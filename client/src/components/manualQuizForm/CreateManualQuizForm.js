@@ -1,5 +1,5 @@
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, FormSection, Fields } from 'redux-form';
 import { connect } from 'react-redux';
 
 import AddQuestions from './AddQuestions';
@@ -57,7 +57,12 @@ class CreateManualQuizForm extends React.Component {
                 break;
             case 'removeQuestionForm':
                 this.props.removeQuestionForm(currentPosition)
-                this.props.resetSection(`items.${currentPosition}`)
+                if (this.props.initialValues) {
+                    this.props.initialValues.items.splice(currentPosition, 1)
+                    this.props.reset();
+                } else {
+                    this.props.resetSection(`items.${currentPosition}`)
+                }
                 break;
             default:
                 break;
@@ -110,7 +115,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const form = reduxForm({
-    form: 'manualQuizForm'
+    form: 'manualQuizForm',
+    enableReinitialize: true
 })(CreateManualQuizForm);
 
 export default connect(mapStateToProps, { addQuestionForm, clearQuestionForms, removeQuestionForm })(form);

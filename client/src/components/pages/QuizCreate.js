@@ -74,9 +74,9 @@ class QuizCreate extends React.Component {
 
     render() {
         return (
-            <>
+            <div className="quizCreate-container">
                 {this.renderForm()}
-            </>
+            </div>
         )
     }
 };

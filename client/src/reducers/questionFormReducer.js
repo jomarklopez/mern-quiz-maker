@@ -18,13 +18,9 @@ export default (state = initState, action) => {
             return initState;
         // Remove a question and update all question id's
         case REMOVE_QUESTION:
-            return state.filter((question) => question.questionId !== action.questionId).map((question, index) => {
-                if (question.questionId !== action.questionId) {
-                    return {
-                        questionId: index
-                    };
-                }
-            });
+            return state
+                .filter((question) => question.questionId !== action.questionId)
+                .map((question, index) => ({ questionId: index }));
         default:
             return state;
     }

@@ -180,7 +180,7 @@ class QuizList extends React.Component {
 
     render() {
         return (
-            <>
+            <div className="quizList-container">
                 {this.renderQuizCreate()}
                 <div className="ui container">
                     <h2 className="ui header" id="quizListheader">
@@ -199,7 +199,7 @@ class QuizList extends React.Component {
                         </div>
                     </div>
                 </div>
-            </>
+            </div>
         )
     }
 };

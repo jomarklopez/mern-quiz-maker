@@ -154,7 +154,7 @@ class QuizStart extends React.Component {
         // Loading screen
         if (!this.props.quiz) {
             return (
-                <div className="ui placeholder">
+                <div className="ui placeholder loading-container">
                     <div className="image header">
                         <div className="line"></div>
                         <div className="line"></div>
@@ -171,7 +171,7 @@ class QuizStart extends React.Component {
             // Game proper
         } else if (!this.state.quizFinished) {
             return (
-                <>
+                <div className="quizStart-container">
                     <div className="ui segment">
                         <h1>{this.props.quiz.quizName}</h1>
                     </div>
@@ -186,12 +186,12 @@ class QuizStart extends React.Component {
                             {this.renderItems()}
                         </StackedCards>
                     </div>
-                </>
+                </div>
             );
             // End Screen and Quiz Summary
         } else if (this.state.quizFinished) {
             return (
-                <div className="ui container segment">
+                <div className="ui container segment quizFinish-container">
                     <QuizFinish
                         quiz={this.props.quiz}
                         userAnswers={Object.values(this.state.userAnswers)}
