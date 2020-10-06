@@ -14,6 +14,15 @@ class CreateManualQuizForm extends React.Component {
         this.props.onSubmit(formValues);
     }
 
+    componentDidMount() {
+        // Check if there are initial values for the form
+        if (this.props.initialValues && this.props.questionForms.length < this.props.quizLength) {
+            for (let index = 0; index < this.props.quizLength - 1; index++) {
+                this.props.addQuestionForm()
+            }
+        }
+    }
+
     renderLabeledInput({ input, label, placeholder, meta: { touched, error } }) {
         //const className = `ui labeled field input ${touched && error ? 'error' : ''}`
         return (
@@ -87,7 +96,6 @@ class CreateManualQuizForm extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    // Check if there are initial values for the form
     if (ownProps.quiz) {
         return {
             questionForms: state.questionForms,

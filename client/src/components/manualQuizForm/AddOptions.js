@@ -1,8 +1,6 @@
 import React from 'react';
 
 import Add4Choice from './Add4Choice';
-import AddFillBlankChoice from './AddFillBlank';
-import AddPoolOfChoices from './AddPoolOfChoices';
 
 class AddOptions extends React.Component {
 
@@ -21,10 +19,6 @@ class AddOptions extends React.Component {
         switch (type) {
             case '4choice':
                 return <Add4Choice />
-            case 'FillBlank':
-                return <AddFillBlankChoice />
-            case 'PoolofChoices':
-                return <AddPoolOfChoices />
             default:
                 break;
         }

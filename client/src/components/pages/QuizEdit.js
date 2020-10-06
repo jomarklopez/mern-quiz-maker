@@ -28,7 +28,7 @@ class QuizEdit extends React.Component {
             <div className="ui right floated buttons">
                 <button type="submit" className="ui green button">Save</button>
                 <div className="or"></div>
-                <Link to="/" className="ui button">
+                <Link to="/quizlist" className="ui button">
                     Discard
                 </Link>
             </div>

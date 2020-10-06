@@ -55,9 +55,9 @@ router.get('/quiz/:quizId', auth, async (req, res) => {
 router.patch('/quiz/:quizId', auth, async (req, res) => {
     // Verify that the user intends to update existing fields
 
-    let { quizName, questions } = req.body;
-    const updates = Object.keys({ quizName, questions })
-    const allowedUpdates = ['quizName', 'questions']
+    let { quizName, items } = req.body;
+    const updates = Object.keys({ quizName, items })
+    const allowedUpdates = ['quizName', 'items']
 
     const isValidUpdate = updates.every(update => allowedUpdates.includes(update))
 

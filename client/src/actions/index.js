@@ -182,7 +182,7 @@ export const editQuiz = (id, formValues) => async dispatch => {
     });
 
     dispatch({ type: EDIT_QUIZ, payload: response.data });
-    history.push('/');
+    history.push('/quizlist');
 };
 
 export const deleteQuiz = id => async dispatch => {
