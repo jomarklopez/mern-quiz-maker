@@ -1,5 +1,5 @@
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, unregisterField } from 'redux-form';
 import { connect } from 'react-redux';
 
 import AddQuestions from './AddQuestions';
@@ -47,7 +47,7 @@ class CreateManualQuizForm extends React.Component {
                 break;
             case 'removeQuestionForm':
                 this.props.removeQuestionForm(currentPosition)
-                this.props.resetSection(`item.${currentPosition}`)
+                this.props.resetSection(`items.${currentPosition}`)
                 break;
             default:
                 break;

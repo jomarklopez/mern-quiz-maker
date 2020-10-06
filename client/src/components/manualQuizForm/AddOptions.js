@@ -13,10 +13,6 @@ class AddOptions extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        console.log('Gonna unmount this option');
-    }
-
     handleChange = (event) => {
         this.setState({ optionType: event.target.value });
     };

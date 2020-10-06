@@ -89,6 +89,28 @@ class QuizStart extends React.Component {
                                     </label>
                                 </div>
                             </div>
+                            <div className="row">
+                                <div className="eight wide column option-container">
+                                    <Field
+                                        id={`${item._id}-4-${item.options[4]}`} type="radio"
+                                        name={item._id}
+                                        component={this.renderRadioInput}
+                                        value={item.options[4]} />
+                                    <label htmlFor={`${item._id}-4-${item.options[4]}`}>{item.options[4]}
+                                    </label>
+                                </div>
+                                <div className="eight wide column option-container">
+                                    <Field
+                                        id={`${item._id}-5-${item.options[5]}`}
+                                        type="radio"
+                                        name={item._id}
+                                        component={this.renderRadioInput}
+                                        value={item.options[5]}
+                                    />
+                                    <label htmlFor={`${item._id}-5-${item.options[5]}`}> {item.options[5]}
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
