@@ -5,13 +5,11 @@ const router = new express.Router()
 
 // Create quiz
 router.post('/quiz', auth, async (req, res) => {
-
     const quiz = new Quiz({
         ...req.body,
         user: req.user._id
     })
     try {
-
         await quiz.save()
 
         res.status(201).send(quiz)
@@ -60,7 +58,7 @@ router.patch('/quiz/:quizId', auth, async (req, res) => {
     const allowedUpdates = ['quizName', 'items']
 
     const isValidUpdate = updates.every(update => allowedUpdates.includes(update))
-
+    console.log(isValidUpdate);
     const _id = req.params.quizId
 
     if (!isValidUpdate) {

@@ -1,0 +1,119 @@
+.items-wrapper {
+	overflow-y: scroll;
+	height: 75vh;
+	width: 100%;
+}
+
+#item-list,
+#multiplechoice-list {
+	list-style: none;
+	padding: 0;
+}
+
+.items-wrapper #addItem-btn {
+	width: 100%;
+}
+
+#item-container {
+	width: 100%;
+	padding: 10px;
+}
+
+.item-header,
+#option-container {
+	display: flex;
+	width: 100%;
+}
+
+.item-header {
+	align-items: center;
+	justify-content: space-between;
+}
+
+.item-header label {
+	font-size: large;
+	margin-bottom: 10px;
+}
+
+.options-header {
+	margin: 10px 0px;
+}
+
+.options-header .menu {
+	margin: 0px 10px !important;
+}
+
+.question-wrapper {
+	margin-bottom: 10px;
+}
+
+.options-wrapper .optionType-select {
+	width: 20% !important;
+}
+
+/* MULTIPLE CHOICE */
+
+.multiplechoice-wrapper label {
+	margin-bottom: 10px;
+}
+
+#option-container {
+	margin: 5px 0px;
+	align-items: center;
+}
+
+#option-container .field {
+	width: 90%;
+	margin: 0px !important;
+}
+
+#option-container button {
+	height: 70%;
+}
+
+#option-container input {
+	border-radius: 0px !important;
+}
+/* Customize the label (the container) */
+.checkbox-container {
+	display: flex;
+	height: 38px;
+	width: 48px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+	width: 45px;
+	background-color: salmon;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	text-align: center;
+}
+
+.checkmark .icon {
+	color: salmon;
+	font-size: 30px;
+	margin: 0 !important;
+	align-self: center;
+	padding-top: 11px;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+	background-color: #66ff99;
+}
+
+.checkbox-container input:checked ~ .checkmark .icon {
+	color: white;
+}

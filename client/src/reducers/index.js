@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
 import authReducer from './authReducer';
-import createQuizFormReducer from './questionFormReducer';
 import quizReducer from './quizReducer';
 import errorReducer from './errorReducer';
 
@@ -21,7 +20,6 @@ export default combineReducers({
         }
     }),
     auth: authReducer,
-    questionForms: createQuizFormReducer,
     quiz: quizReducer,
     error: errorReducer
 });

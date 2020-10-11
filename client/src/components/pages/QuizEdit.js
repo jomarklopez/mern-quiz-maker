@@ -9,7 +9,7 @@ class QuizEdit extends React.Component {
 
     componentDidMount() {
         const { quizId } = this.props.match.params;
-        this.props.fetchQuiz(quizId);
+        this.props.fetchQuiz(quizId, true);
     }
 
     submitQuizBody(formValues) {
@@ -38,9 +38,9 @@ class QuizEdit extends React.Component {
     render() {
         if (this.props.quiz) {
             return (
-                <div>
-                    <CreateManualQuizForm onSubmit={this.onSubmit} actions={this.renderFormActions()} quiz={this.props.quiz} />
-                </div>
+                <>
+                    <CreateManualQuizForm actions={this.renderFormActions()} quiz={this.props.quiz} quizId={this.props.match.params.quizId}/>
+                </>
             )
         } else {
             return <div> Loading... </div>

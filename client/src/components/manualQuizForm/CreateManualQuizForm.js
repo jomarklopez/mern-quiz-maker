@@ -1,116 +1,140 @@
 import React from 'react';
-import { reduxForm, Field, FormSection, Fields } from 'redux-form';
+import { reduxForm, Field, FieldArray, FormSection, reset } from 'redux-form';
 import { connect } from 'react-redux';
+import { createQuiz, editQuiz } from '../../actions';
 
-import AddQuestions from './AddQuestions';
-import { addQuestionForm, removeQuestionForm, clearQuestionForms } from '../../actions';
-import StackedCards from '../StackedCards';
+import AddOptions from './AddOptions';
+import '../../styles/quizCreate.css';
 
 const required = value => (value || typeof value === 'number' ? undefined : 'Required');
 
-class CreateManualQuizForm extends React.Component {
+const onSubmit = (values, dispatch, props) => {
+    for (let index = 0; index < values.items.length; index++) {
+        const item = values.items[index]
+        item.answers = []
 
-    onSubmit = formValues => {
-        this.props.onSubmit(formValues);
-    }
-
-    componentDidMount() {
-        // Check if there are initial values for the form
-        if (this.props.initialValues && this.props.questionForms.length < this.props.quizLength) {
-            for (let index = 0; index < this.props.quizLength - 1; index++) {
-                this.props.addQuestionForm()
-            }
-        }
-    }
-
-    renderLabeledInput({ input, label, placeholder, meta: { touched, error } }) {
-        //const className = `ui labeled field input ${touched && error ? 'error' : ''}`
-        return (
-            <div className="ui labeled field input">
-                <div className="ui label">
-                    {label}
-                </div>
-                <input
-                    {...input}
-                    placeholder={placeholder}
-                    size="30"
-                    required
-                />
-            </div>
-        );
-    }
-
-    renderQuestionList() {
-        return this.props.questionForms.map(questionForm => {
-            return (
-                <div className="content" key={questionForm.questionId}>
-                    <AddQuestions questionId={questionForm.questionId} />
-                </div>
-            )
-        })
-    }
-
-    formActions = (type, currentPosition) => {
-        switch (type) {
-            case 'addQuestionForm':
-                this.props.addQuestionForm()
-                break;
-            case 'removeQuestionForm':
-                this.props.removeQuestionForm(currentPosition)
-                if (this.props.initialValues) {
-                    this.props.initialValues.items.splice(currentPosition, 1)
-                    this.props.reset();
-                } else {
-                    this.props.resetSection(`items.${currentPosition}`)
+        if (item.optionType === 'multiplechoice') {
+            // Populate answers array
+            for (let index = 0; index < item.options.length; index++) {
+                const choice = item.options[index];
+                if (choice.answer === true) {
+                    item.answers.push(choice.option)
                 }
-                break;
-            default:
-                break;
+                item.options[index] = choice.option
+            }
+        } else if (item.optionType === 'patternmatch') {
+            item.answers[0] = item.options[0].option
+            item.options[0] = item.options[0].option
         }
     }
 
-    render() {
-        return (
-            <form className="ui form" onSubmit={this.props.handleSubmit(this.onSubmit)} >
-                <div className="ui form segment">
+    if (props.quizId) {
+        props.editQuiz(props.quizId, values)
+    } else {
+        props.createQuiz(values)
+    }
+}
+
+const renderLabeledInput = ({ input, label, placeholder, meta: { touched, error } }) => {
+    const className = `ui labeled field input ${touched && error ? 'error' : ''}`
+    return (
+        <div className={className}>
+            <div className="ui label">
+                {label}
+            </div>
+            <input
+                {...input}
+                placeholder={placeholder}
+                size="30"
+            />
+        </div>
+    );
+}
+
+const renderField = ({ input, label, type }) => {
+    return (
+        <div className={"question-wrapper"}>
+            <label>{label}</label>
+            <input {...input}
+                type={type}
+                placeholder={label}
+                autoComplete="off"
+                size="10"
+            />
+        </div>
+    )
+}
+
+const renderQuestionList = ({ fields, resetSection }) => {
+    return <ul id="item-list">
+        {fields.map((item, index) =>
+            <li className="ui card" id="item-container" key={index}>
+                <div className="item-header">
+                    <label>Question {index + 1}</label>
+                    <button
+                        type="button"
+                        className="ui negative button"
+                        onClick={() => {
+                            fields.remove(index)
+                            reset()
+                        }}
+                    >Delete Question</button>
+                </div>
+                <FormSection className="item-content" name={`${item}`}>
                     <Field
-                        name="quizName"
-                        component={this.renderLabeledInput}
-                        label="Quiz: "
-                        placeholder="Put your quiz name here"
+                        name={`question`}
+                        component={renderField}
+                        label="Question:"
                         validate={[required]}
                     />
+                    <AddOptions itemNumber={item}/>
+                </FormSection>
+            </li>
+        )}
+        <li>
+            <button
+                type="button"
+                className="ui green basic button"
+                id="addItem-btn"
+                onClick={() => fields.push({})}
+            >Add Item
+                </button>
+        </li>
+    </ul>
+}
+
+const CreateManualQuizForm = ({ handleSubmit, actions, resetSection }) => {
+    return (
+        <form className="ui form" onSubmit={handleSubmit(onSubmit)} >
+            <div className="ui segment form">
+                <Field
+                    name="quizName"
+                    component={renderLabeledInput}
+                    label="Quiz: "
+                    placeholder="QUIZ NAME"
+                    validate={[required]}
+                />
+            </div>
+            {/* Form Card */}
+            <div className="ui card container fluid" >
+                <div className="content items-wrapper">
+                    <FieldArray name="items" component={renderQuestionList} resetSection={resetSection} />
                 </div>
-                {/* Form Card */}
-                <div className="ui card container fluid" >
-                    <StackedCards
-                        swipeAnimationDirection="right"
-                        paginationVisibility={true}
-                        adtlActions={this.formActions}
-                        carousel={false}
-                    >
-                        {this.renderQuestionList()}
-                    </StackedCards>
-                    <div className="extra content">
-                        {this.props.actions}
-                    </div>
+                <div className="extra content">
+                    {actions}
                 </div>
-            </form>
-        );
-    }
+            </div>
+        </form>
+    )
 }
 
 const mapStateToProps = (state, ownProps) => {
     if (ownProps.quiz) {
         return {
-            questionForms: state.questionForms,
-            initialValues: ownProps.quiz,
-            quizLength: ownProps.quiz.items.length
+            initialValues: ownProps.quiz
         }
     } else {
-        return {
-            questionForms: state.questionForms
-        }
+        return {}
     }
 };
 
@@ -119,4 +143,4 @@ const form = reduxForm({
     enableReinitialize: true
 })(CreateManualQuizForm);
 
-export default connect(mapStateToProps, { addQuestionForm, clearQuestionForms, removeQuestionForm })(form);
+export default connect(mapStateToProps, { createQuiz, editQuiz })(form);

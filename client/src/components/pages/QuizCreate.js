@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { createQuiz, clearQuestionForms } from '../../actions';
+import { createQuiz } from '../../actions';
 import CreateManualQuizForm from '../manualQuizForm/CreateManualQuizForm';
 import CreateAutoQuizForm from '../autoQuizForm/CreateAutoQuizForm';
 
@@ -14,12 +14,7 @@ class QuizCreate extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.props.clearQuestionForms()
-    }
-
     submitQuizBody(formValues) {
-        console.log(formValues);
         if (this.state.createMethod === 'manual') {
             for (let index = 0; index < formValues.items.length; index++) {
                 const item = formValues.items[index];
@@ -55,7 +50,7 @@ class QuizCreate extends React.Component {
     renderFormActions() {
         return (
             <div className="ui right floated buttons">
-                <button type="submit" className="ui green button">Submit</button>
+                <button type="submit" className="ui green button">Create</button>
                 <div className="or"></div>
                 <Link to="/quizlist" className="ui button">
                     Cancel
@@ -66,7 +61,7 @@ class QuizCreate extends React.Component {
 
     renderForm() {
         if (this.state.createMethod === 'manual') {
-            return <CreateManualQuizForm actions={this.renderFormActions()} onSubmit={this.onSubmit} quizLength={3}/>;
+            return <CreateManualQuizForm actions={this.renderFormActions()} />;
         } else if (this.state.createMethod === 'auto') {
             return <CreateAutoQuizForm actions={this.renderFormActions()} onSubmit={this.onSubmit} />;
         }
@@ -124,4 +119,4 @@ function createChoices(answerKey) {
     return choicesPool;
 }
 
-export default connect(null, { createQuiz, clearQuestionForms })(QuizCreate);
+export default connect(null, { createQuiz })(QuizCreate);

@@ -4,15 +4,12 @@ import {
     CREATE_USER_ERROR,
     SIGN_IN,
     SIGN_OUT,
-    ADD_QUESTION,
-    REMOVE_QUESTION,
     CREATE_QUIZ,
     FETCH_QUIZZES,
     FETCH_QUIZ,
     FETCH_SHUFFLED_QUIZ,
     EDIT_QUIZ,
     DELETE_QUIZ,
-    CLEAR_QUESTION,
     HIDE_ERROR
 } from '../actions/types';
 import history from '../history';
@@ -37,10 +34,8 @@ export const hideError = () => async dispatch => {
  */
 
 export const createUser = formValues => async dispatch => {
-    //dispatch({ type: CREATE_USER_REQUEST });
-    let response;
     try {
-        response = await axios.post('/users', formValues);
+        let response = await axios.post('/users', formValues);
 
         if (response.statusText === "OK") {
             console.log('OKAY!')
@@ -91,41 +86,12 @@ export const getUserProfile = () => async dispatch => {
 };
 
 /**
- * FOR QUIZ FORM
- */
-
-let nextQuestionId = 1;
-
-export const addQuestionForm = () => {
-    return {
-        type: ADD_QUESTION,
-        questionId: nextQuestionId++
-    }
-};
-
-export const clearQuestionForms = () => {
-    nextQuestionId = 1;
-    return {
-        type: CLEAR_QUESTION
-    }
-};
-
-export const removeQuestionForm = (questionId) => {
-    nextQuestionId -= 1;
-    return {
-        type: REMOVE_QUESTION,
-        questionId
-    }
-};
-
-/**
  * CRUD FOR QUIZZES
  */
 export const createQuiz = formValues => async dispatch => {
     const token = localStorage.getItem('token');
 
-    const response = await axios.post(
-        '/quiz',
+    const response = await axios.post('/quiz',
         formValues, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -148,7 +114,7 @@ export const fetchQuizzes = () => async dispatch => {
     dispatch({ type: FETCH_QUIZZES, payload: response.data });
 };
 
-export const fetchQuiz = id => async dispatch => {
+export const fetchQuiz = (id, format) => async dispatch => {
     const token = localStorage.getItem('token');
 
     const response = await axios.get(`/quiz/${id}`, {
@@ -156,7 +122,27 @@ export const fetchQuiz = id => async dispatch => {
             'Authorization': `Bearer ${token}`
         }
     });
-    dispatch({ type: FETCH_QUIZ, payload: response.data });
+
+    if (format) {
+        let quiz = response.data
+        // Fix format of quiz for form value initialization
+        for (let i = 0; i < quiz.items.length; i++) {
+            const item = quiz.items[i];
+            for (let j = 0; j < item.options.length; j++) {
+                let option = item.options[j];
+                // Add answers property
+                quiz.items[i].options[j] = {
+                    answer: item.answers[j] === option ? true : false,
+                    option: option
+                }
+            }
+            delete quiz.items[i].answers
+        }
+        dispatch({ type: FETCH_QUIZ, payload: response.data });
+    } else {
+        dispatch({ type: FETCH_QUIZ, payload: response.data });
+    }
+
 };
 
 export const fetchShuffledQuiz = id => async dispatch => {

@@ -1,51 +1,67 @@
-input[type="radio"] {
-  display: none;
-}
-input[type="radio"]:not(:disabled) ~ label {
-  cursor: pointer;
+#item-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
-input[type="radio"]:disabled ~ label {
-  color: #bcc2bf;
-  border-color: #bcc2bf;
-  box-shadow: none;
-  cursor: not-allowed;
+#item-container .button {
+	align-self: flex-end;
+}
+
+#item-container .header {
+	margin-bottom: 0px;
+}
+
+input[type='checkbox'] {
+	display: none;
+}
+input[type='checkbox']:not(:disabled) ~ label {
+	cursor: pointer;
+}
+
+input[type='checkbox']:disabled ~ label {
+	color: #bcc2bf;
+	border-color: #bcc2bf;
+	box-shadow: none;
+	cursor: not-allowed;
 }
 
 label {
-    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-    -moz-user-select: none; /* mozilla browsers */
-    -khtml-user-select: none; /* webkit (konqueror) browsers */
-    -ms-user-select: none; /* IE10+ */
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
+}
+
+.question-header {
+	margin-top: 10px !important;
 }
 
 .option-container {
-  transition: all 50ms ease;
+	transition: all 50ms ease;
 }
 
 .option-container:active {
-  transform: translateY(5px);
+	transform: translateY(5px);
 }
 
 .option-container label {
-  height: 100%;
-  display: block;
-  background: white;
-  border: 2px solid #20df80;
-  border-radius: 10px;
-  padding: 1rem;
-  text-align: center;
-  box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);
-  position: relative;
+	height: 100%;
+	display: block;
+	background: white;
+	border: 2px solid #e5e5e5;
+	padding: 1rem;
+	text-align: center;
+	margin: 5px 0;
+	position: relative;
 }
 
-input[type="radio"]:checked + label {
-  background: #20df80;
-  color: white;
-  box-shadow: 0px 0px 20px rgba(0, 255, 128, 0.75);
+input[type='checkbox']:checked + label {
+	background: #20df80;
+	color: white;
 }
 
-input[type="radio"]#control_05:checked + label {
-  background: red;
-  border-color: red;
+input[type='checkbox']#control_05:checked + label {
+	background: red;
+	border-color: red;
 }
