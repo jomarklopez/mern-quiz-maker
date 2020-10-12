@@ -83,10 +83,15 @@ export const signOutUser = () => async dispatch => {
 
 export const getUserProfile = () => async dispatch => {
     const token = localStorage.getItem('token');
+    console.log(token);
+
     if (token) {
         const response = await axios.get('/users/me', { headers: { 'Authorization': `Bearer ${token}` } });
+
+        console.log(response.data);
         dispatch({ type: SIGN_IN, payload: response.data });
     }
+
 };
 
 /**
