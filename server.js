@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
     // add middleware
     app.use(express.static(path.join(__dirname, 'build')))
 
-    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')));
     /** TO FIX: MAKES THE SERVER SEND THE INDEX HTML AS USER
      * // Express serve up index.html file if it doesn't recognize route
     const path = require('path');
