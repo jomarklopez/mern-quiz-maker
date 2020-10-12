@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import history from '../history';
+import { createBrowserHistory } from '../history';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
 import Login from './pages/Login';
@@ -37,6 +37,8 @@ class App extends React.Component {
     }
 
     render() {
+        const history = createBrowserHistory();
+
         const login = (props) => {
             return (
                 <Login

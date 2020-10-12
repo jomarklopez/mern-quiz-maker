@@ -3,8 +3,6 @@ const User = require('../models/user')
 const router = new express.Router()
 const auth = require('../middleware/auth')
 
-
-
 // Creating a user
 router.post('/users', async (req, res, next) => {
     const user = new User(req.body)
