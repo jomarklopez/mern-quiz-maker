@@ -12,6 +12,7 @@ export default (state = INITIAL_STATE, action) => {
         case CREATE_USER_SUCCESS:
             return {};
         case SIGN_IN:
+            console.log(action.payload);
             return { ...state, isSignedIn: true, userId: action.payload._id, currentUser: action.payload };
         case SIGN_OUT:
             return { ...state, isSignedIn: false, userId: null, currentUser: null };

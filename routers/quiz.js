@@ -35,10 +35,10 @@ router.get('/quiz', auth, async (req, res) => {
 // Get individual quiz of user
 router.get('/quiz/:quizId', auth, async (req, res) => {
     const _id = req.params.quizId
-    console.log(_id);
+
     try {
         const quiz = await Quiz.findOne({ _id, user: req.user._id })
-        console.log(quiz);
+
         if (!quiz) {
             return res.status(404).send()
         }
