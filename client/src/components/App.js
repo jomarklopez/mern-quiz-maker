@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { createBrowserHistory } from 'history'
+import history from '../history';
 import NavBar from './NavBar';
 import SideBar from './SideBar';
 import Login from './pages/Login';
@@ -37,8 +37,6 @@ class App extends React.Component {
     }
 
     render() {
-        const history = createBrowserHistory();
-
         const login = (props) => {
             return (
                 <Login
@@ -54,8 +52,8 @@ class App extends React.Component {
                     <SideBar sideBarToggle={this.toggleShowHide} sideBarActive={this.state.sideBarActive} />
                     
                     <div className={this.state.sideBarActive ? "appMain sideBarActive" : "appMain"}>
+                        <Route path="/" exact component={Home} />
                         <Route path="/login" exact component={login} />
-                        <PrivateRoute path="/" exact component={Home} authed={this.props.currentUser} />
                         <PrivateRoute path="/quizlist" exact component={QuizList} authed={this.props.currentUser} />
                         <PrivateRoute path="/quiz/create/:method" exact component={QuizCreate} authed={this.props.currentUser} />
                         <PrivateRoute path="/quiz/start/:quizId" exact component={QuizStart} authed={this.props.currentUser} />
