@@ -26,9 +26,6 @@ class QuizList extends React.Component {
     renderList() {
         if (Object.keys(this.props.quizzes).length !== 0) {
             return this.props.quizzes.map((quiz, index) => {
-                if (index % 6 === 0) {
-
-                }
                 return (
                     <div className="four wide column setCard" key={quiz._id} onClick={() => this.quizStart(quiz._id)}>
                         <div className="ui simple icon bottom right floated dropdown button" onClick={(e) => e.stopPropagation()}>

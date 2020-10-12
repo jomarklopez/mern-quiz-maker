@@ -5,8 +5,12 @@ import {
     SIGN_IN,
     SIGN_OUT,
     CREATE_QUIZ,
+    CREATE_QUIZ_REQUEST,
+    CREATE_QUIZ_SUCCESS,
     FETCH_QUIZZES,
     FETCH_QUIZ,
+    FETCH_QUIZ_REQUEST,
+    FETCH_QUIZ_SUCCESS,
     FETCH_SHUFFLED_QUIZ,
     EDIT_QUIZ,
     DELETE_QUIZ,
@@ -88,17 +92,23 @@ export const getUserProfile = () => async dispatch => {
 /**
  * CRUD FOR QUIZZES
  */
+
 export const createQuiz = formValues => async dispatch => {
     const token = localStorage.getItem('token');
 
+    dispatch({ type: CREATE_QUIZ_REQUEST });
+
     const response = await axios.post('/quiz',
         formValues, {
-        headers: {
-            'Authorization': `Bearer ${token}`
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         }
-    }
     );
+
+    dispatch({ type: CREATE_QUIZ_SUCCESS });
     dispatch({ type: CREATE_QUIZ, payload: response.data });
+
     //Do some programmatic navigation to automatically bring the user back to the list of streams
     history.push('/quizlist');
 };
@@ -117,14 +127,17 @@ export const fetchQuizzes = () => async dispatch => {
 export const fetchQuiz = (id, format) => async dispatch => {
     const token = localStorage.getItem('token');
 
+    dispatch({ type: FETCH_QUIZ_REQUEST });
+
     const response = await axios.get(`/quiz/${id}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
-    });
-
+    })
+    dispatch({ type: FETCH_QUIZ_SUCCESS });
     if (format) {
-        let quiz = response.data
+        // Copy values of response data to quiz for reformatting
+        let quiz = JSON.parse(JSON.stringify(response.data));
         // Fix format of quiz for form value initialization
         for (let i = 0; i < quiz.items.length; i++) {
             const item = quiz.items[i];
@@ -132,13 +145,13 @@ export const fetchQuiz = (id, format) => async dispatch => {
                 let option = item.options[j];
                 // Add answers property
                 quiz.items[i].options[j] = {
-                    answer: item.answers[j] === option ? true : false,
+                    answer: item.answers.includes(option) ? true : false,
                     option: option
                 }
             }
             delete quiz.items[i].answers
         }
-        dispatch({ type: FETCH_QUIZ, payload: response.data });
+        dispatch({ type: FETCH_QUIZ, payload: quiz });
     } else {
         dispatch({ type: FETCH_QUIZ, payload: response.data });
     }
@@ -153,6 +166,7 @@ export const fetchShuffledQuiz = id => async dispatch => {
             'Authorization': `Bearer ${token}`
         }
     });
+
     dispatch({ type: FETCH_SHUFFLED_QUIZ, payload: response.data });
 };
 

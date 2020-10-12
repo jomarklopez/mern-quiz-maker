@@ -28,6 +28,7 @@ const onSubmit = (values, dispatch, props) => {
         }
     }
 
+    console.log(values)
     if (props.quizId) {
         props.editQuiz(props.quizId, values)
     } else {
@@ -87,6 +88,7 @@ const renderQuestionList = ({ fields, resetSection }) => {
                         label="Question:"
                         validate={[required]}
                     />
+                    {/*<ImageEmbed itemNumber={item} hasField={true} />*/}
                     <AddOptions itemNumber={item}/>
                 </FormSection>
             </li>

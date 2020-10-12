@@ -51,7 +51,6 @@ class QuizStart extends React.Component {
         switch (type) {
             case 'multiplechoice':
                 return options.map((option, index) => {
-                    console.log(option);
                     return (
                         <div className="option-container" key={index}>
                             <Field
@@ -137,7 +136,7 @@ class QuizStart extends React.Component {
                     </div>
                 </div>
             );
-            // Game proper
+        // Game proper
         } else if (!this.state.quizFinished) {
             return (
                 <div className="quizStart-container">
@@ -150,7 +149,7 @@ class QuizStart extends React.Component {
                     </div>
                 </div>
             );
-            // End Screen and Quiz Summary
+        // End Screen and Quiz Summary
         } else if (this.state.quizFinished) {
             return (
                 <div className="ui container segment quizFinish-container">
@@ -168,7 +167,10 @@ class QuizStart extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    return { quiz: state.quiz[ownProps.match.params.quizId] };
+    return {
+        quiz: state.quiz[ownProps.match.params.quizId],
+        loadingQuiz: state.loadingQuiz
+    };
 };
 
 const form = reduxForm({
