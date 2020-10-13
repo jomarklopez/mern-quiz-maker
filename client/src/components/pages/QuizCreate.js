@@ -15,13 +15,7 @@ class QuizCreate extends React.Component {
     }
 
     submitQuizBody(formValues) {
-        if (this.state.createMethod === 'manual') {
-            for (let index = 0; index < formValues.items.length; index++) {
-                const item = formValues.items[index];
-                item.answer = item.options[0];
-            }
-            this.props.createQuiz(formValues);
-        } else if (this.state.createMethod === 'auto') {
+        if (this.state.createMethod === 'auto') {
             let questionsInput = removeEmptyLines(formValues.questionsForm.split(/\n/));
             let answerKey = removeEmptyLines(formValues.answersForm.split(/\n/));
             let choices = createChoices(answerKey);

@@ -3,6 +3,7 @@ import { reduxForm, Field, FieldArray, FormSection, reset } from 'redux-form';
 import { connect } from 'react-redux';
 import { createQuiz, editQuiz } from '../../actions';
 
+import Loader from '../Loader';
 import AddOptions from './AddOptions';
 import '../../styles/quizCreate.css';
 
@@ -27,8 +28,7 @@ const onSubmit = (values, dispatch, props) => {
             item.options[0] = item.options[0].option
         }
     }
-
-    console.log(values)
+    
     if (props.quizId) {
         props.editQuiz(props.quizId, values)
     } else {
@@ -105,27 +105,32 @@ const renderQuestionList = ({ fields, resetSection }) => {
     </ul>
 }
 
-const CreateManualQuizForm = ({ handleSubmit, actions, resetSection }) => {
+const CreateManualQuizForm = ({ handleSubmit, actions, resetSection, isSubmitting }) => {
     return (
         <form className="ui form" onSubmit={handleSubmit(onSubmit)} >
-            <div className="ui segment form">
-                <Field
-                    name="quizName"
-                    component={renderLabeledInput}
-                    label="Quiz: "
-                    placeholder="QUIZ NAME"
-                    validate={[required]}
-                />
-            </div>
-            {/* Form Card */}
-            <div className="ui card container fluid" >
-                <div className="content items-wrapper">
-                    <FieldArray name="items" component={renderQuestionList} resetSection={resetSection} />
-                </div>
-                <div className="extra content">
-                    {actions}
-                </div>
-            </div>
+            {isSubmitting
+                ? <Loader message={'Creating quiz...'} />
+                : <>
+                    <div className="ui segment form">
+                        <Field
+                            name="quizName"
+                            component={renderLabeledInput}
+                            label="Quiz: "
+                            placeholder="QUIZ NAME"
+                            validate={[required]}
+                        />
+                    </div>
+                    <div className="ui card container fluid" >
+                        <div className="content items-wrapper">
+                            <FieldArray name="items" component={renderQuestionList} resetSection={resetSection} />
+                        </div>
+                        <div className="extra content">
+                            {actions}
+                        </div>
+                    </div>
+                </>
+            }
+            
         </form>
     )
 }
@@ -133,10 +138,11 @@ const CreateManualQuizForm = ({ handleSubmit, actions, resetSection }) => {
 const mapStateToProps = (state, ownProps) => {
     if (ownProps.quiz) {
         return {
-            initialValues: ownProps.quiz
+            initialValues: ownProps.quiz,
+            isSubmitting: state.quiz.isSubmitting
         }
     } else {
-        return {}
+        return { isSubmitting: state.quiz.isSubmitting}
     }
 };
 

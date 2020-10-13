@@ -6,11 +6,11 @@
 }
 
 .sideBarActive {
-	margin-left: 250px;
+	margin-left: 260px;
 }
 
 .quizList-container,
 .quizStart-container,
 .quizCreate-container {
-	margin: 0px 10px;
+	margin: 0 10px 10px 10px;
 }

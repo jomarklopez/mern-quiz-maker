@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, FormSection } from 'redux-form';
 import { Link } from 'react-router-dom';
 
+import Loader from '../Loader';
 import { fetchShuffledQuiz } from '../../actions';
 import QuizFinish from './QuizFinish';
 import '../../styles/quizStart.css';
@@ -120,35 +121,19 @@ class QuizStart extends React.Component {
 
     render() {
         // Loading screen
-        if (!this.props.quiz) {
-            return (
-                <div className="ui placeholder loading-container">
-                    <div className="image header">
-                        <div className="line"></div>
-                        <div className="line"></div>
-                    </div>
-                    <div className="paragraph">
-                        <div className="line"></div>
-                        <div className="line"></div>
-                        <div className="line"></div>
-                        <div className="line"></div>
-                        <div className="line"></div>
-                    </div>
-                </div>
-            );
+        if (this.props.isLoading) {
+            return <Loader message={'Loading quiz...'}/>;
         // Game proper
         } else if (!this.state.quizFinished) {
-            return (
-                <div className="quizStart-container">
-                    <div className="ui clearing segment">
-                        <h1 className="ui header">{this.props.quiz.quizName}</h1>
+            return <div className="quizStart-container">
+                        <div className="ui clearing segment">
+                            <h1 className="ui header">{this.props.quiz.quizName}</h1>
+                        </div>
+                        <div className="ui segment" id="item-container">
+                            {this.renderItem()}
+                            {this.renderActionButtons()}
+                        </div>
                     </div>
-                    <div className="ui segment" id="item-container">
-                        {this.renderItem()}
-                        {this.renderActionButtons()}
-                    </div>
-                </div>
-            );
         // End Screen and Quiz Summary
         } else if (this.state.quizFinished) {
             return (
@@ -168,8 +153,8 @@ class QuizStart extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        quiz: state.quiz[ownProps.match.params.quizId],
-        loadingQuiz: state.loadingQuiz
+        quiz: state.quiz.quizList[ownProps.match.params.quizId],
+        isLoading: state.quiz.isLoading
     };
 };
 

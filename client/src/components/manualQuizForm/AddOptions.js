@@ -34,7 +34,6 @@ const renderOptions = (type) => {
 }
 
 const renderLabel = (type) => {
-
     switch (type) {
         case 'multiplechoice':
             return <label>Options:</label>

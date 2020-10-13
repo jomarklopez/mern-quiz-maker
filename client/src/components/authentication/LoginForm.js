@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
 
     renderRegistrationForm() {
         return <Modal
-            title={<h2>Sign Up</h2>}
+            title={'Sign Up'}
             visibility={this.state.showRegform}
             content={<RegistrationForm closeForm={this.toggleRegModal.bind(this)} />}
             onDismiss={this.toggleRegModal.bind(this)}

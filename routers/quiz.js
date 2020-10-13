@@ -11,8 +11,9 @@ router.post('/quiz', auth, async (req, res) => {
     })
     try {
         await quiz.save()
-
-        res.status(201).send(quiz)
+        setTimeout(() => {
+            res.status(201).send(quiz)
+        }, 1000)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -26,7 +27,9 @@ router.get('/quiz', auth, async (req, res) => {
             path: 'quizzes'
         }).execPopulate()
 
-        res.status(200).send(req.user.quizzes)
+        setTimeout(() => {
+            res.status(200).send(req.user.quizzes)
+        }, 1000)
     } catch (e) {
         res.status(500).send(e)
     }
@@ -43,7 +46,9 @@ router.get('/quiz/:quizId', auth, async (req, res) => {
             return res.status(404).send()
         }
 
-        res.status(200).send(quiz)
+        setTimeout(() => {
+            res.status(200).send(quiz)
+        }, 1000)
     } catch (e) {
         res.status(500).send(e)
     }
@@ -58,7 +63,6 @@ router.patch('/quiz/:quizId', auth, async (req, res) => {
     const allowedUpdates = ['quizName', 'items']
 
     const isValidUpdate = updates.every(update => allowedUpdates.includes(update))
-    console.log(isValidUpdate);
     const _id = req.params.quizId
 
     if (!isValidUpdate) {
@@ -75,7 +79,10 @@ router.patch('/quiz/:quizId', auth, async (req, res) => {
         if (!quiz) {
             res.status(404).send()
         }
-        res.send(quiz)
+        setTimeout(() => {
+            res.send(quiz)
+        }, 1000)
+        //res.send(quiz)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -91,8 +98,9 @@ router.delete('/quiz/:quizId', auth, async (req, res) => {
         if (!quiz) {
             res.status(404).send('Quiz not found!')
         }
-
-        res.send(quiz)
+        setTimeout(() => {
+            res.send()
+        }, 1000)
     } catch (e) {
         res.status(500).send()
     }

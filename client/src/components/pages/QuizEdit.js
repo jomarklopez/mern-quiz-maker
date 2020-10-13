@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Loader from '../Loader';
 import { fetchQuiz, editQuiz } from '../../actions';
 import CreateManualQuizForm from '../manualQuizForm/CreateManualQuizForm';
 
@@ -20,6 +21,7 @@ class QuizEdit extends React.Component {
     }
 
     onSubmit = formValues => {
+        console.log(formValues);
         this.submitQuizBody(formValues);
     }
 
@@ -36,21 +38,19 @@ class QuizEdit extends React.Component {
     }
 
     render() {
-        if (this.props.quiz) {
-            return (
-                <>
-                    <CreateManualQuizForm actions={this.renderFormActions()} quiz={this.props.quiz} quizId={this.props.match.params.quizId}/>
-                </>
-            )
-        } else {
-            return <div> Loading... </div>
+        if (this.props.isLoading) {
+            return <Loader message={'Loading quiz...'} />
+        }
+        else {
+            return <CreateManualQuizForm actions={this.renderFormActions()} quiz={this.props.quiz} quizId={this.props.match.params.quizId} />
         }
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        quiz: state.quiz[ownProps.match.params.quizId]
+        quiz: state.quiz.quizList[ownProps.match.params.quizId],
+        isLoading: state.quiz.isLoading
     };
 };
 

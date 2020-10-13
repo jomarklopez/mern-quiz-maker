@@ -45,7 +45,6 @@ const checkQuizScore = (items, userAnswers, quizSummary) => {
         const itemAnswer = item.answers
         let userAnswer = []
 
-        console.log(item.optionType);
         if (item.optionType === 'multiplechoice') {
             for (const answer in userAnswerObj) {
                 if (userAnswerObj[answer] === false) delete userAnswerObj[answer];

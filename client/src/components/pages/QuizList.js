@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import Loader from '../Loader';
 import Modal from '../Modal';
 import { fetchQuizzes } from '../../actions';
 import '../../styles/quizList.css'
@@ -24,8 +25,8 @@ class QuizList extends React.Component {
 
     // QUIZZES LIST
     renderList() {
-        if (Object.keys(this.props.quizzes).length !== 0) {
-            return this.props.quizzes.map((quiz, index) => {
+        return <>
+            {this.props.quizzes.map((quiz, index) => {
                 return (
                     <div className="four wide column setCard" key={quiz._id} onClick={() => this.quizStart(quiz._id)}>
                         <div className="ui simple icon bottom right floated dropdown button" onClick={(e) => e.stopPropagation()}>
@@ -33,19 +34,25 @@ class QuizList extends React.Component {
                             <div className="menu" >
                                 <Link to={`/quiz/edit/${quiz._id}`} className="item">
                                     <i className="edit icon"></i>
-                                    Edit
-                                    </Link>
+                                Edit
+                                </Link>
                                 <Link to={`/quiz/delete/${quiz._id}`} className="item">
                                     <i className="trash alternate icon"></i>
-                                    Delete
-                                    </Link>
+                                Delete
+                                </Link>
                             </div>
                         </div>
                         <h3 className="setCard_title noselect" id={quiz.quizName} >{quiz.quizName} </h3>
                     </div>
-                );
-            });
-        } 
+                )
+            })}
+            <div onClick={this.toggleCreateModal.bind(this)} className="four wide column setCard">
+                <div className="ui container">
+                    <i className="green plus circle big icon"></i>
+                </div>
+            </div>
+        </>
+        
     }
 
     // CREATE QUIZ CHOICES MODAL
@@ -179,22 +186,18 @@ class QuizList extends React.Component {
         return (
             <div className="quizList-container">
                 {this.renderQuizCreate()}
-                <div className="ui container">
-                    <h2 className="ui header" id="quizListheader">
-                        <i className="book icon"></i>
-                        <div className="content">
-                            Quiz List
-                    <div className="sub header">Start or Create a Quiz</div>
-                        </div>
-                    </h2>
-                    <div className="ui grid quizSet-container">
-                        {this.renderList()}
-                        <div onClick={this.toggleCreateModal.bind(this)} className="four wide column setCard">
-                            <div className="ui container">
-                                <i className="green plus circle big icon"></i>
-                            </div>
-                        </div>
+                <h2 className="ui header" id="quizListheader">
+                    <i className="book icon"></i>
+                    <div className="content">
+                        Quiz List
+                <div className="sub header">Start or Create a Quiz</div>
                     </div>
+                </h2>
+                <div className="ui grid quizSet-container">
+                    {this.props.isLoading
+                        ? <Loader message={'Loading quiz list...'}/>
+                        : this.renderList()
+                    }
                 </div>
             </div>
         )
@@ -203,7 +206,8 @@ class QuizList extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        quizzes: Object.values(state.quiz)
+        quizzes: Object.values(state.quiz.quizList),
+        isLoading: state.quiz.isLoading
     }
 };
 

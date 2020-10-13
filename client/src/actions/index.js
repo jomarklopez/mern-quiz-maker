@@ -5,8 +5,8 @@ import {
     SIGN_IN,
     SIGN_OUT,
     CREATE_QUIZ,
-    CREATE_QUIZ_REQUEST,
-    CREATE_QUIZ_SUCCESS,
+    SUBMIT_QUIZ_REQUEST,
+    SUBMIT_QUIZ_SUCCESS,
     FETCH_QUIZZES,
     FETCH_QUIZ,
     FETCH_QUIZ_REQUEST,
@@ -14,6 +14,8 @@ import {
     FETCH_SHUFFLED_QUIZ,
     EDIT_QUIZ,
     DELETE_QUIZ,
+    DELETE_QUIZ_REQUEST,
+    DELETE_QUIZ_SUCCESS,
     HIDE_ERROR
 } from '../actions/types';
 import history from '../history';
@@ -99,8 +101,7 @@ export const getUserProfile = () => async dispatch => {
 export const createQuiz = formValues => async dispatch => {
     const token = localStorage.getItem('token');
 
-    dispatch({ type: CREATE_QUIZ_REQUEST });
-
+    dispatch({ type: SUBMIT_QUIZ_REQUEST });
     const response = await axios.post('/quiz',
         formValues, {
             headers: {
@@ -108,8 +109,8 @@ export const createQuiz = formValues => async dispatch => {
             }
         }
     );
+    dispatch({ type: SUBMIT_QUIZ_SUCCESS });
 
-    dispatch({ type: CREATE_QUIZ_SUCCESS });
     dispatch({ type: CREATE_QUIZ, payload: response.data });
 
     //Do some programmatic navigation to automatically bring the user back to the list of streams
@@ -118,12 +119,13 @@ export const createQuiz = formValues => async dispatch => {
 
 export const fetchQuizzes = () => async dispatch => {
     const token = localStorage.getItem('token');
-
+    dispatch({ type: FETCH_QUIZ_REQUEST });
     const response = await axios.get('/quiz', {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     });
+    dispatch({ type: FETCH_QUIZ_SUCCESS });
     dispatch({ type: FETCH_QUIZZES, payload: response.data });
 };
 
@@ -131,13 +133,13 @@ export const fetchQuiz = (id, format) => async dispatch => {
     const token = localStorage.getItem('token');
 
     dispatch({ type: FETCH_QUIZ_REQUEST });
-
     const response = await axios.get(`/quiz/${id}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     })
     dispatch({ type: FETCH_QUIZ_SUCCESS });
+
     if (format) {
         // Copy values of response data to quiz for reformatting
         let quiz = JSON.parse(JSON.stringify(response.data));
@@ -164,11 +166,13 @@ export const fetchQuiz = (id, format) => async dispatch => {
 export const fetchShuffledQuiz = id => async dispatch => {
     const token = localStorage.getItem('token');
 
+    dispatch({ type: FETCH_QUIZ_REQUEST });
     const response = await axios.get(`/quiz/${id}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     });
+    dispatch({ type: FETCH_QUIZ_SUCCESS });
 
     dispatch({ type: FETCH_SHUFFLED_QUIZ, payload: response.data });
 };
@@ -176,6 +180,7 @@ export const fetchShuffledQuiz = id => async dispatch => {
 export const editQuiz = (id, formValues) => async dispatch => {
     const token = localStorage.getItem('token');
 
+    dispatch({ type: SUBMIT_QUIZ_REQUEST });
     const response = await axios.patch(
         `/quiz/${id}`,
         formValues, {
@@ -183,6 +188,7 @@ export const editQuiz = (id, formValues) => async dispatch => {
             'Authorization': `Bearer ${token}`
         }
     });
+    dispatch({ type: SUBMIT_QUIZ_SUCCESS });
 
     dispatch({ type: EDIT_QUIZ, payload: response.data });
     history.push('/quizlist');
@@ -191,11 +197,13 @@ export const editQuiz = (id, formValues) => async dispatch => {
 export const deleteQuiz = id => async dispatch => {
     const token = localStorage.getItem('token');
 
+    dispatch({ type: DELETE_QUIZ_REQUEST });
     await axios.delete(`/quiz/${id}`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
     });
+    dispatch({ type: DELETE_QUIZ_SUCCESS });
 
     dispatch({ type: DELETE_QUIZ, payload: id });
     history.push('/quizlist');

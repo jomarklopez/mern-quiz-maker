@@ -16,7 +16,7 @@ const quizRouter = require('./routers/quiz')
 // Connect mongoose to database 
 // mongodb://127.0.0.1:27017/quiz-create-api
 // mongodb+srv://jmlopez:mahesvara@react-quiz-ky0fy.mongodb.net/test?retryWrites=true&w=majority;
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/quiz-create-api', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/quiz-create', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -39,12 +39,9 @@ app.use(quizRouter)
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
-    //app.use(express.static('client/build'));
-    // add middleware
     app.use(express.static(path.join(__dirname, 'client/build')));
 
     app.get('*', function (req, res) {
-        console.log('Express sent index.html');
         res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
     });
 
