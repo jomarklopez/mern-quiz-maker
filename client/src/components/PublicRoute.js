@@ -7,7 +7,7 @@ const PublicRoute = ({ component: Component, authed, ...rest }) => (
         render={props =>
             ((authed === null)
                 ? <Component {...props} />
-                : <Redirect to="/quizlist" />)
+                : <Redirect to="/" />)
         }
     />
 );

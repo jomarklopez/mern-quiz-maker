@@ -59,7 +59,6 @@ router.post('/users/logoutall', auth, async (req, res) => {
 
 // Read user account 
 router.get('/users/me', auth, async (req, res) => {
-    console.log(req.user)
     res.send(req.user)
 })
 
