@@ -26,6 +26,16 @@ mongoose.connection.on('connected', () => {
     console.log('MongoDB is connected!!!')
 })
 
+// cors
+app.use(cors({ origin: true, credentials: true }))
+
+// Receive request from JSON to Objects
+app.use(express.json())
+
+// Telling express to use the following routers
+app.use(userRouter)
+app.use(quizRouter)
+
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
@@ -37,18 +47,8 @@ if (process.env.NODE_ENV === 'production') {
         console.log('Express sent index.html');
         res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
     });
-    
+
 }
-
-// cors
-app.use(cors({ origin: true, credentials: true }))
-
-// Receive request from JSON to Objects
-app.use(express.json())
-
-// Telling express to use the following routers
-app.use(userRouter)
-app.use(quizRouter)
 
 // Set server to use port 3001
 app.listen(PORT, () => {
