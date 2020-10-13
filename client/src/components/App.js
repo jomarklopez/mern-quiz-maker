@@ -15,6 +15,7 @@ import QuizEdit from './pages/QuizEdit';
 import { getUserProfile } from '../actions';
 
 import PrivateRoute from '../components/PrivateRoute';
+import PublicRoute from '../components/PublicRoute';
 import '../styles/app.css';
 
 class App extends React.Component {
@@ -52,8 +53,9 @@ class App extends React.Component {
                     <SideBar sideBarToggle={this.toggleShowHide} sideBarActive={this.state.sideBarActive} />
                     
                     <div className={this.state.sideBarActive ? "appMain sideBarActive" : "appMain"}>
-                        <Route path="/login" exact component={login} />
-                        <PrivateRoute path="/" exact component={Home} authed={this.props.currentUser} />
+
+                        <PublicRoute path="/" exact component={Home} />
+                        <PublicRoute path="/login" exact component={login} />
                         <PrivateRoute path="/quizlist" exact component={QuizList} authed={this.props.currentUser} />
                         <PrivateRoute path="/quiz/create/:method" exact component={QuizCreate} authed={this.props.currentUser} />
                         <PrivateRoute path="/quiz/start/:quizId" exact component={QuizStart} authed={this.props.currentUser} />
