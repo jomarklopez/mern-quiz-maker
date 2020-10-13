@@ -31,9 +31,10 @@ if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
     //app.use(express.static('client/build'));
     // add middleware
-    app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
-    app.get('*', function (req, res) {
-        res.sendFile('index.html', { root: path.join(__dirname, 'client/build/') });
+    app.use(express.static(path.join(__dirname, 'client/build')));
+
+    app.get('/', function (req, res) {
+        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
     });
     
 }
