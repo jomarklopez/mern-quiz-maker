@@ -11,9 +11,8 @@ router.post('/quiz', auth, async (req, res) => {
     })
     try {
         await quiz.save()
-        setTimeout(() => {
-            res.status(201).send(quiz)
-        }, 1000)
+        
+        res.status(201).send(quiz)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -27,9 +26,7 @@ router.get('/quiz', auth, async (req, res) => {
             path: 'quizzes'
         }).execPopulate()
 
-        setTimeout(() => {
-            res.status(200).send(req.user.quizzes)
-        }, 1000)
+        res.status(200).send(req.user.quizzes)
     } catch (e) {
         res.status(500).send(e)
     }
@@ -46,9 +43,7 @@ router.get('/quiz/:quizId', auth, async (req, res) => {
             return res.status(404).send()
         }
 
-        setTimeout(() => {
-            res.status(200).send(quiz)
-        }, 1000)
+        res.status(200).send(quiz)
     } catch (e) {
         res.status(500).send(e)
     }
@@ -79,10 +74,8 @@ router.patch('/quiz/:quizId', auth, async (req, res) => {
         if (!quiz) {
             res.status(404).send()
         }
-        setTimeout(() => {
-            res.send(quiz)
-        }, 1000)
-        //res.send(quiz)
+
+        res.send(quiz)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -98,9 +91,8 @@ router.delete('/quiz/:quizId', auth, async (req, res) => {
         if (!quiz) {
             res.status(404).send('Quiz not found!')
         }
-        setTimeout(() => {
-            res.send()
-        }, 1000)
+        
+        res.send()
     } catch (e) {
         res.status(500).send()
     }
