@@ -56,12 +56,25 @@ const renderField = ({ input, label, type }) => {
     return (
         <div className={"question-wrapper"}>
             <label>{label}</label>
+            
             <input {...input}
-                type={type}
-                placeholder={label}
                 autoComplete="off"
                 size="10"
             />
+        </div>
+    )
+}
+
+const renderTextArea = ({ input, label, type }) => {
+    console.log(type);
+    return (
+        <div className={"notes-wrapper"}>
+            <label>{label}</label>
+            <textarea
+                {...input}
+                autoComplete="off"
+                rows="1"
+            > </textarea>
         </div>
     )
 }
@@ -89,7 +102,12 @@ const renderQuestionList = ({ fields, resetSection }) => {
                         validate={[required]}
                     />
                     {/*<ImageEmbed itemNumber={item} hasField={true} />*/}
-                    <AddOptions itemNumber={item}/>
+                    <AddOptions itemNumber={item} />
+                    <Field
+                        name="notes"
+                        component={renderTextArea}
+                        label="Notes:"
+                    />
                 </FormSection>
             </li>
         )}

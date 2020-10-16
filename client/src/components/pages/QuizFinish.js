@@ -54,38 +54,24 @@ const checkQuizScore = (items, userAnswers, quizSummary) => {
             userAnswer.push(userAnswerObj.userAnswer)
         }
 
+        let isCorrectIcon;
+
         if (isCorrect(itemAnswer, userAnswer)) {
             userScore++;
-            quizSummary.push(
-                <>
-                    <div className="content">
-                        <h3 className="ui header">
-                            <div className="content">
-                                <div className="sub header">
-                                    Question {index + 1}
-                                    <i className="green check icon"></i>
-                                </div>
-                                {item.question}
-                            </div>
-                        </h3>
-                        <div className="description">
-                            {userAnswers[index]}
-                        </div>
-                        <div>Question Type: {item.optionType}</div>
-                        <div>{renderAnswer('item', itemAnswer)}</div>
-                    </div>
-                </>
-            )
+            isCorrectIcon = "green check";
         } else {
-            quizSummary.push(
+            isCorrectIcon = "red close";
+        }
+
+        quizSummary.push(
             <>
                 <div className="content">
                     <h3 className="ui header">
-                            <div className="content">
-                                <div className="sub header">
-                                    Question {index + 1}
-                                    <i className="red close icon"></i>
-                                </div>
+                        <div className="content">
+                            <div className="sub header">
+                                Question {index + 1}
+                                <i className={`${isCorrectIcon} icon`}></i>
+                            </div>
                             {item.question}
                         </div>
                     </h3>
@@ -93,13 +79,14 @@ const checkQuizScore = (items, userAnswers, quizSummary) => {
                         {userAnswers[index]}
                     </div>
                     <div className="extra content">
-                            <div>{renderAnswer('user', userAnswer)}</div>
-                            <div>{renderAnswer('item', itemAnswer)}</div>
+                        <div>Question Type: {item.optionType}</div>
+                        <div>{renderAnswer('user', userAnswer)}</div>
+                        <div>{renderAnswer('item', itemAnswer)}</div>
+                        <div>Notes: {item.notes}</div>
                     </div>
                 </div>
             </>
         )
-        }
     }
     return userScore
 }

@@ -22,7 +22,11 @@ const quizSchema = new mongoose.Schema({
         options: [{
             type: String,
             required: true
-        }]
+        }],
+        notes: {
+            type: String,
+            required: false
+        },
     }],
     user: {
         type: mongoose.Schema.Types.ObjectId,

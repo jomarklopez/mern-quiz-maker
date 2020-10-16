@@ -8,7 +8,6 @@ const required = value => (value || typeof value === 'number' ? undefined : 'Req
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => {
     return <input {...input}
-        type={type}
         placeholder={label}
         autoComplete="off"
     />
